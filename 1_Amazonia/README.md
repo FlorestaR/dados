@@ -10,4 +10,4 @@ Lista de árvores inventariadas em 2010 para um plano de manejo em área localiz
 | PAB | Para abate |
 | OS | Porta semente |
 | RAR | Rara |
-| REM | Remanecente |
+| REM | Remanescente |
