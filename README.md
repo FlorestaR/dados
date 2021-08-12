@@ -1,6 +1,8 @@
 # LivroDados
 
-Repositório usado para armazenar os dados usados no projeto *FlorestaR*.  Os dados estão organizados nas seguintes pastas:
+Repositório usado para armazenar os dados do projeto *FlorestaR*.
+
+Os dados estão organizados nas seguintes pastas:
 
 | Pasta        | Conteúdo       |
 |:-------------|:-------------|
