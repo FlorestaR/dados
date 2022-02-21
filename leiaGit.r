@@ -39,23 +39,12 @@ colFator <- c('CodArvore', 'UT', 'Linha', 'UCA', 'Especie',
 dados[colFator] <- lapply(dados[colFator], factor)
 glimpse(dados)
 
-# Conta árvores nas unidades de trabalho para cada destino
+# Conta árvores de cada UT para cada destino
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 table(dados$UT, dados$Destino)
 
-# Conta árvores nas unidades de trabalho de cada unidades de corte (UCA)
+# Conta árvores em cada UCA de cada UT
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-table(dados$UCA, dados$UT)
+table(dados$UT, dados$UCA)
 
-# Volume, DAP e altura médios de uma certa UT para um certo destino
-#   por espécie
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-dados %>%
-  filter(UT == '1' & Destino == 'PAB') %>%
-  group_by(Especie) %>% 
-  summarise(
-    avgVol = mean(Volume),
-    avgDAP = mean(DAP),
-    avgAlt = mean(Altura),
-  )
 # ----

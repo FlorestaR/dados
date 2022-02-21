@@ -1,0 +1,150 @@
+---
+title: "Gráficos"
+author: "Luiz Estraviz"
+date: "30/09/2021"
+output: html_document
+---
+```{r C010, include = FALSE}
+rm(list=ls(all=TRUE))
+gc()
+library(rmarkdown)
+```
+
+# Introdução
+Profissionais ligados à área florestal precisam frequentemente medir um grande número de árvores para melhor avaliar o estado de uma determinada floresta ou plantio. As medições podem envolver simplesmente a contagem de indivíduos por unidade de área, a determinação de diâmetros a diferentes alturas do tronco de certos indivíduos, ou, ainda, em situações mais desafiadoras, medir o volume de biomassa por parte constituinte da árvore como raízes, tronco, galhos e folhas. Cada medição no campo produz um novo cojunto de dados.
+
+Ao iniciar a análise desses dados, antes de mais nada, é recomendável adotar o saudável hábito de submetê-los a uma fase exploratória. O objetivo, nessa fase, é conhecer melhor a forma como esses dados se apresentam e como expressam certas tendências. É nessa fase que identificamos mínimos e máximos, verificamos a frequência com que certos valores ou intervalos acontecem, e medimos, por exemplo, a dispersão das observações.
+
+A fase exploratória fica mais rica quando apoiada por gráficos, e nos parece ser este o momento mais adequado, portanto, para introduzir o pacote **ggplot2**. Usaremos gráficos para ilustrar as medidas de posição (ou tendência central) e as de variabilidade, para explorar como os dados variam em termos de frequências e de dispersão em torno das medidas de posição.
+
+
+# Criando gráficos com ggplot2
+
+A criação de gráficos com o pacote **ggplot2** se baseia em regras de visualização. De fato, essas regras são a *gramática* de uma linguagem que junta: dados, sistemas de coordenadas e formatos (*geoms*). O **ggplot2** faz parte do pacote **tidyverse**. Portanto, vamos carregar esse pacote:
+
+A gramática do ggplot2 se expressa através de uma soma de blocos. Assim sendo, o comando `ggplot()` é somado ao bloco estético `aes()`, que é seguido, por exemplo, do bloco que define o tipo de gráfico `geom_point()`, do bloco que define a escala de cores `scale_colour_brewer()`, do bloco que define paineis `facet_wrap()` e do bloco que determina o formato `coord_flip()` do sistema de coordenadas. Para ilustrar o uso do pacote ggplot2, e lembrando que o **ggplot2** faz parte do **tidyverse**, vamos garantir que o pacote esteja carregado.
+
+```{r C020, message=FALSE}
+library(tidyverse)
+```
+
+Para criação dos gráficos, usaremos os dados disponíveis na planilha [Censo_UPA04.csv](https://github.com/LuizEstraviz/LivroDados/tree/main/1_Amazonia), que armazena medições reais de um censo de árvores realizado na Amazônia para fins de manejo. O **Anexo XX** descreve com mais detalhes a área e o trabalho realizado, que resultou numa lista de todas as árvores com mais de 40 cm de diâmetro à altura do peito (DAP) existentes na área em outubro de 2010. Faremos a leitura desses dados diretamente no repositório [LivroDados](https://github.com/LuizEstraviz/LivroDados).
+
+```{r C030, message=FALSE}
+gitOnde <- "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
+gitNome <- "Censo_UPA04.csv"
+gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
+dados <- read_csv(gitArqv)
+# O resultado é uma tibble com 20.321 linhas e 19 variáveis
+```
+
+Agora na memória temos um total de 20.321 árvores, para as quais estão disponíveis 19 atributos, um em cada coluna. Os atributos nos permitem identificar a localização e a espécie de cada árvore, assim como espécie, DAP, altura, destinação e pátio de estocagem da tora. O atributo destinação exibe 7 códigos possíveis, definidos da seguinte forma:
+
+| Código |Destinação                                     |
+|-------:|:----------------------------------------------|
+| APP    |Em área de preservação permanente              |
+| CF     |Corte futuro (árvore com DAP entre 40 e 50 cm) |
+| CPL    |Corte protegido por lei                        |
+| PAB    |Para abate                                     |
+| OS     |Porta semente                                  |
+| RAR    |Rara                                           |
+| REM    |Remanecente                                    |
+
+Para que os possíveis agrupamentos possam ser feitos corretamenteo, vamos garantir que os atributos apresentados nas colunas `CodArvore`, `UT`, `Linha`, `UCA`, `Especie`, `ClasseDAP`, `Destino`, `PatioMaisProximo` sejam tratadas como fatores.
+
+```{r C040}
+colFator <- c('CodArvore', 'UT', 'Linha', 'UCA', 'Especie', 
+              'ClasseDAP', 'Destino', 'PatioMaisProximo')
+dados[colFator] <- lapply(dados[colFator], factor)
+glimpse(dados)
+```
+
+Agora os dados estão prontos para uma detalhada análise exploratória, que pode ser feita de diversas formas. Por exemplo, podemos produzir tabelas com número de observações e frequência (absoluta ou relativa) por atributo ou por combinação de atributos, podemos medir a tendência central (calculando a média, mediana e moda), determinar os limites e a intensidade da variação  (identificando mínimo e máximo, e calculando variância, desvio padrão, coeficiente de variação etc.), avaliar a concentração (através de índices de abundância, raridade, Gini etc.) e criar uma infinidade de gráficos que expressem visualmente uma série de parâmetros dessa população de árvores. Vejamos então, algumas dessas possibilidades.
+
+É recomendável que, antes de partirmos direto para a produção de gráficos, tenhamos uma boa noção da forma e da estrutura do do objeto que está armazenando as nossas observações. Como já citado **na seção ___**, o nosso trabalho se orienta pela adoção dos princípios que levaram ao desenvolvimento do pacote tidyverse. Portanto, estaremos sempre armazenando os nossos dados e resultados em *tibbles*.
+
+Uma *tibble* nada mais é do que um *data frame*, uma antiga estrutura tabular de dados bastante conhecida da comunidade de usuários R. *Tibbles* são *data.frames* simplificados que, quando necessário, podem ser retransformados em *data.frames* pela função as.data.frame(), vice-versa, *data.frames* podem ser transformados em *tibbles* com a função as_tibble(). A evolução dos *data.frames* originais para *tibbles* foi proposta pelos desenvolvedores do pacote tidyverse para facilitar a nossa vida. E essa é a razão porque recomendamos e adotamos a estrutura *tibble* como padrão para organização dos nossos dados.
+
+Se simplesmente pedirmos para o R exibir o objeto "dados", veremos que as árvores estão organizadas numa *tibble*. E isso aconteceu por que os dados foram lidos pela função read_csv() do pacote tidyverse.
+
+```{r C050}
+print(dados)
+```
+
+
+A função print() quando aplicada a uma tibble, foi otimizada para apresentar um rico conjunto de informações sobre os nossos dados. Automaticamente exibe apenas as 10 primeiras linhas e as colunas que caibam na tela, acoplados a um navegador de colunas e de páginas que nos permite avançar para a direita e esquerda, e para baixo ou para cima (facilitando assim a visualização de grandes tabelas). Também são exibidos, junto com os nomes das columas, o tipo de variável (p.ex. fctr, chr, dbl etc.).
+
+Outras funções podem igualmente ser usadas para conferirmos, por exemplo, 
+
+quantas colunas e linhas tem a *tibble*:
+```{r C060}
+dim(dados)    # vetor com linhas e colunas
+dim(dados)[1] # linhas
+dim(dados)[2] # colunas
+```
+
+Repare que, como o resultado da função dim() é um vetor, podemos usar explicitamente a função [] para nos referirmos ao primeiro elemento do vetor  que contém o número de linhas (árvores) ao segundo elemento que contém o número de colunas (atributos das árvores). Para tirarmos uma lista de nomes das colunas da *tibble*:
+
+```{r C070}
+names(dados)     # nomes das colunas
+typeof(names(dados))
+paste0("O nome da 10a. coluna é: ", names(dados)[10])
+```
+
+A função names() também retorna um vetor. Os elementos do vetor são do tipo character, e podemos nos referir ao décimo elemento do vetor que corresponde ao nome da 10a. coluna da tabela (Altura). Podemos nos referir a uma específica coluna da *tibble* através da conexão $ e, por exemplo, calcular a média desses valores.
+
+a quantidade de elementos em qualquer coluna da *tibble*:
+```{r C080}
+# entrando a coluna como argumento da função
+length(dados$CodArvore)
+mean(dados$Altura)
+# ou usando a gramática de manipulação de dados do pacote dplyr imbutido no tidyverse
+dados$Altura %>% length()
+dados$Altura %>% mean()
+```
+
+Uma função bastante útil para agrupamento e contagem de dados é oferecida pela função table(). Dentre as várias possibilidades de agrupamento para fins de contagem, vamos determinar quantas são as árvores por destinação para cada unidade de trabalho.
+
+```{r C090}
+  table(dados$Destino, dados$UT)
+```
+
+Agora que conhecemos melhor a estrutura da tabela de dados, a quantidade de dados na tabela, e alguns recursos básicos de pacotes incluidos no tidyverse, é possível extrair uma infinidade de informações muito úteis. Por exemplo, qual o diâmetro mínimo, médio e máximo, e o desvio padrão e o número de observações, de todas as árvores incluídas na tabela?
+
+```{r C100}
+dados %>%
+  summarise(mínimo = min(DAP),
+            média  = mean(DAP),
+            máximo = max(DAP),
+            dp     = sd(DAP),
+            n      = n())
+```
+
+Podemos também filtrar a tabela e gerar as mesmas estatísticas para um grupo específico de árvores. Por exemplo, quantas são as árvores de tauari carvão, e qual o diâmetro mínimo, médio, máximo desvio padrão da média dessas árvores destinadas para abate?
+
+```{r C110}
+dados %>%
+  filter(Destino=="PAB", Especie=="tauari carvão") %>%
+  summarise(mínimo = min(DAP),
+            média  = mean(DAP),
+            máximo = max(DAP),
+            dp     = sd(DAP),
+            n      = n())
+```
+
+Dada a forma como os dados foram lidos e armazenados, através de funções incluídas no pacote tydeverse, outras funções e ferramentas, também disponbilizadas pelo pacote tidyverse, tornam certas tarefas bastante simples. Por exemplo, vamos determinar o volume, o DAP médio e altura média de uma certa UT para um certo destino por espécie.
+
+```{r C120}
+dados %>%
+  filter(UT == '1' & Destino == 'PAB') %>%
+  group_by(Especie) %>% 
+  summarise(
+    avgVol = mean(Volume),
+    avgDAP = mean(DAP),
+    avgAlt = mean(Altura),
+  ) %>%
+  arrange(desc(avgVol)) %>%
+  paged_table()
+```
+
+# ----
