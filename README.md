@@ -1,6 +1,6 @@
 # LivroDados
 
-Repositório usado para armazenar os dados do projeto *FlorestaR*. Clique [aqui](https://github.com/LuizEstraviz/FlorestaR_dados/LeiaMe.html) para mais informações sobre como acessar esses dados diretamente do seu código R.
+Repositório usado para armazenar os dados do projeto *FlorestaR*. Clique [aqui](https://www.luizestraviz.com/FlorestaR/Dados.html) para mais informações sobre como acessar esses dados diretamente do seu código R.
 
 Os dados estão organizados nas seguintes pastas:
 
