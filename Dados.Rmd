@@ -13,9 +13,13 @@ if(!require(tidyverse)){
 }
 ```
 
+------------------------------------------------------------------------
+
 # Série FlorestaR
 
 O projeto *FlorestaR* reúne estudantes e professores interessados no **uso do R como ferramenta de análise de dados florestais**. Para isso, os membros do projeto trabalham como autores e redigem coletivamente uma coleção de livros.
+
+------------------------------------------------------------------------
 
 # Livros
 
@@ -25,6 +29,8 @@ A coleção está em constante evolução, e no momento é constituida pelos seg
 -   **Vol_02** Análise quantitativa de dados florestais
 -   **Vol_03** Amostragem para fins de inventário florestal
 -   **Vol_04** Processamento de dados LiDAR para o monitoramento de florestas
+
+------------------------------------------------------------------------
 
 # Conjuntos de dados
 
@@ -38,9 +44,11 @@ Os dados usados para ilustrar os exemplos estão organizados da seguinte forma:
 | 4_Eucalyptus | Árvores inventariadoas em plantio de eucalipto |
 | 5_Lidar      | Nuvens de pontos gerada por sobrevoos LiDAR    |
 
+------------------------------------------------------------------------
+
 # Como acessar os dados dos exercícios
 
-Os dados no [github](https://github.com/LuizEstraviz/FlorestaR_dados) podem ser acessados diretamente do seu código R. Em seguida, como os dados foram bem estruturada (seguem as regras [tidy](https://r4ds.had.co.nz/tidy-data.html)), é possível explorá-los com funções **tidyverse**. Por exemplo, o conteúdo da planilha [Censo_UPA04.csv](https://github.com/LuizEstraviz/LivroDados/tree/main/1_Amazonia) pode ser armazenado em um objeto `dados`, da seguinte forma:
+Os dados deste repositório [github](https://github.com/LuizEstraviz/FlorestaR_dados) podem ser acessados diretamente do seu código R. Como os dados foram bem estruturados, pois seguem as regras [tidy](https://r4ds.had.co.nz/tidy-data.html)), é possível explorá-los com funções **tidyverse**. Por exemplo, o conteúdo da planilha [Censo_UPA04.csv](https://github.com/LuizEstraviz/LivroDados/tree/main/1_Amazonia) pode ser armazenado em um objeto `dados`, da seguinte forma:
 
 ```{r ledados, message=FALSE, echo=TRUE}
 gitOnde = "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
@@ -52,12 +60,14 @@ dados = readr::read_csv(gitArqv)
 # O resultado é uma tibble com 20.321 linhas e 19 variáveis
 ```
 
-As primeira três linhas definem o endereço URL acrescido de `?raw=true`, que é repassado para a função `read_csv()` do pacote **readr**. Esse pacote do **tidyverse** permite fazer a leitura remota no repositório [github](https://github.com/LuizEstraviz/LivroDados). A tabela de dados resultante registra medições reais de um censo de árvores realizado em 2010, numa área de floresta amazônica no estado de Rondônia, próxima à divisa com o Acre. A função `str()` do R nos dá informação completa sobre a estrutura de `dados`:
+`gitOnde` define a pasta dentro do repositório, `gitNome` define o arquivo de dados e `gitArqv` junta essas duas informações ao termo `?raw=true` para que o endereço URL completo possa ser usado na função `read_csv()` do pacote **readr** da coleção **tidyverse**. A função `read_csv()` do pacote **readr** permite que um usuário R conectado à internet leia diretamente dados mantidos em repositórios [github](https://github.com).
+
+A tabela de dados resultante registra medições reais de um censo de árvores realizado em 2010, numa área de floresta amazônica no estado de Rondônia, próxima à divisa com o Acre. Para exibir a estrutura de `dados`, podemos usar a função `str()` do R:
 
 ```{r colunas, message=FALSE, echo=TRUE}
 str(dados)
 ```
 
-Pocedimento similar pode ser usado para acesso direto a qualquer um dos demais arquivos de dados mantidos neste repositório. Caso encontre alguma inconsistência nas informações deste repositório, ou queira registrar algum comentário, clique em [`issues`](https://github.com/LuizEstraviz/FlorestaR_dados/issues) no menu do repositório [github.com/LuizEstraviz/FlorestaR_dados](https://github.com/LuizEstraviz/FlorestaR_dados) e deixe a sua contribuição clicando no botão `New issue`.
+Para acesso direto a qualquer um dos demais arquivos de dados mantidos neste repositório, basta usar procedimento similar. Caso encontre alguma inconsistência nas informações deste repositório, ou queira registrar um comentário, clique em [`issues`](https://github.com/LuizEstraviz/FlorestaR_dados/issues) no menu do repositório [github.com/LuizEstraviz/FlorestaR_dados](https://github.com/LuizEstraviz/FlorestaR_dados) e deixe a sua contribuição clicando no botão `New issue`.
 
 Agradecemos o seu interesse por esta iniciativa.

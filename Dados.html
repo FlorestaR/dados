@@ -172,9 +172,11 @@ pre code {
 </div>
 
 
+<hr />
 <div id="série-florestar" class="section level1">
 <h1>Série FlorestaR</h1>
 <p>O projeto <em>FlorestaR</em> reúne estudantes e professores interessados no <strong>uso do R como ferramenta de análise de dados florestais</strong>. Para isso, os membros do projeto trabalham como autores e redigem coletivamente uma coleção de livros.</p>
+<hr />
 </div>
 <div id="livros" class="section level1">
 <h1>Livros</h1>
@@ -185,6 +187,7 @@ pre code {
 <li><strong>Vol_03</strong> Amostragem para fins de inventário florestal</li>
 <li><strong>Vol_04</strong> Processamento de dados LiDAR para o monitoramento de florestas</li>
 </ul>
+<hr />
 </div>
 <div id="conjuntos-de-dados" class="section level1">
 <h1>Conjuntos de dados</h1>
@@ -219,10 +222,11 @@ pre code {
 </tr>
 </tbody>
 </table>
+<hr />
 </div>
 <div id="como-acessar-os-dados-dos-exercícios" class="section level1">
 <h1>Como acessar os dados dos exercícios</h1>
-<p>Os dados no <a href="https://github.com/LuizEstraviz/FlorestaR_dados">github</a> podem ser acessados diretamente do seu código R. Em seguida, como os dados foram bem estruturada (seguem as regras <a href="https://r4ds.had.co.nz/tidy-data.html">tidy</a>), é possível explorá-los com funções <strong>tidyverse</strong>. Por exemplo, o conteúdo da planilha <a href="https://github.com/LuizEstraviz/LivroDados/tree/main/1_Amazonia">Censo_UPA04.csv</a> pode ser armazenado em um objeto <code>dados</code>, da seguinte forma:</p>
+<p>Os dados deste repositório <a href="https://github.com/LuizEstraviz/FlorestaR_dados">github</a> podem ser acessados diretamente do seu código R. Como os dados foram bem estruturados, pois seguem as regras <a href="https://r4ds.had.co.nz/tidy-data.html">tidy</a>), é possível explorá-los com funções <strong>tidyverse</strong>. Por exemplo, o conteúdo da planilha <a href="https://github.com/LuizEstraviz/LivroDados/tree/main/1_Amazonia">Censo_UPA04.csv</a> pode ser armazenado em um objeto <code>dados</code>, da seguinte forma:</p>
 <pre class="r"><code>gitOnde = &quot;https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/&quot;
 gitNome = &quot;Censo_UPA04.csv&quot;
 gitArqv = paste0(gitOnde, gitNome, &quot;?raw=true&quot;)
@@ -230,7 +234,8 @@ gitArqv = paste0(gitOnde, gitNome, &quot;?raw=true&quot;)
 dados = readr::read_csv(gitArqv)
 
 # O resultado é uma tibble com 20.321 linhas e 19 variáveis</code></pre>
-<p>As primeira três linhas definem o endereço URL acrescido de <code>?raw=true</code>, que é repassado para a função <code>read_csv()</code> do pacote <strong>readr</strong>. Esse pacote do <strong>tidyverse</strong> permite fazer a leitura remota no repositório <a href="https://github.com/LuizEstraviz/LivroDados">github</a>. A tabela de dados resultante registra medições reais de um censo de árvores realizado em 2010, numa área de floresta amazônica no estado de Rondônia, próxima à divisa com o Acre. A função <code>str()</code> do R nos dá informação completa sobre a estrutura de <code>dados</code>:</p>
+<p><code>gitOnde</code> define a pasta dentro do repositório, <code>gitNome</code> define o arquivo de dados e <code>gitArqv</code> junta essas duas informações ao termo <code>?raw=true</code> para que o endereço URL completo possa ser usado na função <code>read_csv()</code> do pacote <strong>readr</strong> da coleção <strong>tidyverse</strong>. A função <code>read_csv()</code> do pacote <strong>readr</strong> permite que um usuário R conectado à internet leia diretamente dados mantidos em repositórios <a href="https://github.com">github</a>.</p>
+<p>A tabela de dados resultante registra medições reais de um censo de árvores realizado em 2010, numa área de floresta amazônica no estado de Rondônia, próxima à divisa com o Acre. Para exibir a estrutura de <code>dados</code>, podemos usar a função <code>str()</code> do R:</p>
 <pre class="r"><code>str(dados)</code></pre>
 <pre><code>## spec_tbl_df [20,321 x 19] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ CodArvore       : num [1:20321] 40100001 40100002 40100003 40100004 40100005 ...
@@ -275,7 +280,7 @@ dados = readr::read_csv(gitArqv)
 ##   ..   PatioMaisProximo = col_double()
 ##   .. )
 ##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
-<p>Pocedimento similar pode ser usado para acesso direto a qualquer um dos demais arquivos de dados mantidos neste repositório. Caso encontre alguma inconsistência nas informações deste repositório, ou queira registrar algum comentário, clique em <a href="https://github.com/LuizEstraviz/FlorestaR_dados/issues"><code>issues</code></a> no menu do repositório <a href="https://github.com/LuizEstraviz/FlorestaR_dados">github.com/LuizEstraviz/FlorestaR_dados</a> e deixe a sua contribuição clicando no botão <code>New issue</code>.</p>
+<p>Para acesso direto a qualquer um dos demais arquivos de dados mantidos neste repositório, basta usar procedimento similar. Caso encontre alguma inconsistência nas informações deste repositório, ou queira registrar um comentário, clique em <a href="https://github.com/LuizEstraviz/FlorestaR_dados/issues"><code>issues</code></a> no menu do repositório <a href="https://github.com/LuizEstraviz/FlorestaR_dados">github.com/LuizEstraviz/FlorestaR_dados</a> e deixe a sua contribuição clicando no botão <code>New issue</code>.</p>
 <p>Agradecemos o seu interesse por esta iniciativa.</p>
 </div>
 
