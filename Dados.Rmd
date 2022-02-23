@@ -60,11 +60,11 @@ Os dados deste repositório foram estruturados segundo regras [tidy](https://r4d
 O conteúdo da planilha `Censo_UPA04.csv` pode ser armazenado em um objeto `dados`, da seguinte forma:
 
 ```{r ledados1, message=FALSE, echo=TRUE}
-gitOnde = "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
-gitNome = "Censo_UPA04.csv"
-gitArqv = paste0(gitOnde, gitNome, "?raw=true")
+gitOnde <- "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
+gitNome <- "Censo_UPA04.csv"
+gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
 
-dados = readr::read_csv(gitArqv)
+dados   <- readr::read_csv(gitArqv)
 
 # O resultado é uma tibble com 20.321 linhas e 19 variáveis
 ```
@@ -76,8 +76,8 @@ dados = readr::read_csv(gitArqv)
 Para ler a versão `xlsx` da mesma planilha (Censo_UPA04.xlsx), uma alternativa é usar a função `import()` do pacote **rio**:
 
 ```{r ledados2, message=FALSE, echo=TRUE}
-gitOnde = "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
-gitNome = "Censo_UPA04.xlsx"
+gitOnde <- "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
+gitNome <- "Censo_UPA04.xlsx"
 gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
 
 dados   <- tibble(rio::import(gitArqv))

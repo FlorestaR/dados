@@ -230,11 +230,11 @@ pre code {
 <div id="formato-csv" class="section level3">
 <h3>Formato CSV</h3>
 <p>O conteúdo da planilha <code>Censo_UPA04.csv</code> pode ser armazenado em um objeto <code>dados</code>, da seguinte forma:</p>
-<pre class="r"><code>gitOnde = &quot;https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/&quot;
-gitNome = &quot;Censo_UPA04.csv&quot;
-gitArqv = paste0(gitOnde, gitNome, &quot;?raw=true&quot;)
+<pre class="r"><code>gitOnde &lt;- &quot;https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/&quot;
+gitNome &lt;- &quot;Censo_UPA04.csv&quot;
+gitArqv &lt;- paste0(gitOnde, gitNome, &quot;?raw=true&quot;)
 
-dados = readr::read_csv(gitArqv)
+dados   &lt;- readr::read_csv(gitArqv)
 
 # O resultado é uma tibble com 20.321 linhas e 19 variáveis</code></pre>
 <p><code>gitOnde</code> define a pasta dentro do repositório, <code>gitNome</code> define o arquivo de dados e <code>gitArqv</code> junta essas duas informações ao termo <code>?raw=true</code> para que o endereço URL completo possa ser usado na função <code>read_csv()</code> do pacote <strong>readr</strong> da coleção <strong>tidyverse</strong>. A função <code>read_csv()</code> do pacote <strong>readr</strong> permite que um usuário R conectado à internet leia diretamente dados mantidos em repositórios <a href="https://github.com">github</a>.</p>
@@ -242,8 +242,8 @@ dados = readr::read_csv(gitArqv)
 <div id="formato-xlsx" class="section level3">
 <h3>Formato XLSX</h3>
 <p>Para ler a versão <code>xlsx</code> da mesma planilha (Censo_UPA04.xlsx), uma alternativa é usar a função <code>import()</code> do pacote <strong>rio</strong>:</p>
-<pre class="r"><code>gitOnde = &quot;https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/&quot;
-gitNome = &quot;Censo_UPA04.xlsx&quot;
+<pre class="r"><code>gitOnde &lt;- &quot;https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/&quot;
+gitNome &lt;- &quot;Censo_UPA04.xlsx&quot;
 gitArqv &lt;- paste0(gitOnde, gitNome, &quot;?raw=true&quot;)
 
 dados   &lt;- tibble(rio::import(gitArqv))
