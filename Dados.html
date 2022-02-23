@@ -226,7 +226,10 @@ pre code {
 </div>
 <div id="como-acessar-os-dados-dos-exercícios" class="section level1">
 <h1>Como acessar os dados dos exercícios</h1>
-<p>Os dados deste repositório <a href="https://github.com/LuizEstraviz/FlorestaR_dados">github</a> podem ser acessados diretamente do seu código R. Como os dados foram bem estruturados, pois seguem as regras <a href="https://r4ds.had.co.nz/tidy-data.html">tidy</a>), é possível explorá-los com funções <strong>tidyverse</strong>. Por exemplo, o conteúdo da planilha <a href="https://github.com/LuizEstraviz/LivroDados/tree/main/1_Amazonia">Censo_UPA04.csv</a> pode ser armazenado em um objeto <code>dados</code>, da seguinte forma:</p>
+<p>Os dados deste repositório foram estruturados segundo regras <a href="https://r4ds.had.co.nz/tidy-data.html">tidy</a> para facilitar o uso de funções <strong>tidyverse</strong>, e podem ser acessados diretamente do seu código R.</p>
+<div id="formato-csv" class="section level3">
+<h3>Formato CSV</h3>
+<p>O conteúdo da planilha <code>Censo_UPA04.csv</code> pode ser armazenado em um objeto <code>dados</code>, da seguinte forma:</p>
 <pre class="r"><code>gitOnde = &quot;https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/&quot;
 gitNome = &quot;Censo_UPA04.csv&quot;
 gitArqv = paste0(gitOnde, gitNome, &quot;?raw=true&quot;)
@@ -235,11 +238,25 @@ dados = readr::read_csv(gitArqv)
 
 # O resultado é uma tibble com 20.321 linhas e 19 variáveis</code></pre>
 <p><code>gitOnde</code> define a pasta dentro do repositório, <code>gitNome</code> define o arquivo de dados e <code>gitArqv</code> junta essas duas informações ao termo <code>?raw=true</code> para que o endereço URL completo possa ser usado na função <code>read_csv()</code> do pacote <strong>readr</strong> da coleção <strong>tidyverse</strong>. A função <code>read_csv()</code> do pacote <strong>readr</strong> permite que um usuário R conectado à internet leia diretamente dados mantidos em repositórios <a href="https://github.com">github</a>.</p>
-<p>A tabela de dados resultante registra medições reais de um censo de árvores realizado em 2010, numa área de floresta amazônica no estado de Rondônia, próxima à divisa com o Acre. Para exibir a estrutura de <code>dados</code>, podemos usar a função <code>str()</code> do R:</p>
+</div>
+<div id="formato-xlsx" class="section level3">
+<h3>Formato XLSX</h3>
+<p>Para ler a versão <code>xlsx</code> da mesma planilha (Censo_UPA04.xlsx), uma alternativa é usar a função <code>import()</code> do pacote <strong>rio</strong>:</p>
+<pre class="r"><code>gitOnde = &quot;https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/&quot;
+gitNome = &quot;Censo_UPA04.xlsx&quot;
+gitArqv &lt;- paste0(gitOnde, gitNome, &quot;?raw=true&quot;)
+
+dados   &lt;- tibble(rio::import(gitArqv))
+
+# O resultado é uma tibble com 20.321 linhas e 19 variáveis</code></pre>
+</div>
+<div id="acesso-à-estrutura-dos-dados" class="section level3">
+<h3>Acesso à estrutura dos dados</h3>
+<p>No exemplo acima, a tabela <code>dados</code> resultante registra medições reais de um censo de árvores realizado em 2010, numa área de floresta amazônica no estado de Rondônia, próxima à divisa com o Acre. Para exibir a estrutura dessa tabela, podemos usar a função <code>str()</code> do R:</p>
 <pre class="r"><code>str(dados)</code></pre>
-<pre><code>## spec_tbl_df [20,321 x 19] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+<pre><code>## tibble [20,321 x 19] (S3: tbl_df/tbl/data.frame)
 ##  $ CodArvore       : num [1:20321] 40100001 40100002 40100003 40100004 40100005 ...
-##  $ Data            : chr [1:20321] &quot;03/03/2010&quot; &quot;03/03/2010&quot; &quot;03/03/2010&quot; &quot;03/03/2010&quot; ...
+##  $ Data            : POSIXct[1:20321], format: &quot;2010-03-03&quot; &quot;2010-03-03&quot; ...
 ##  $ UT              : num [1:20321] 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ Linha           : num [1:20321] 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ UCA             : num [1:20321] 1 1 1 1 1 1 1 1 1 1 ...
@@ -252,36 +269,14 @@ dados = readr::read_csv(gitArqv)
 ##  $ Cipo            : num [1:20321] 1 2 2 2 1 2 2 2 1 2 ...
 ##  $ Especie         : chr [1:20321] &quot;taxi&quot; &quot;caucho&quot; &quot;ucuuba preta&quot; &quot;inharé&quot; ...
 ##  $ ClasseDAP       : chr [1:20321] &quot;070-080&quot; &quot;050-060&quot; &quot;040-050&quot; &quot;050-060&quot; ...
-##  $ AreaBasal       : num [1:20321] 1.57 0.79 0.59 0.88 0.53 0.67 0.79 2.64 1.02 1.67 ...
-##  $ Volume          : num [1:20321] 4.13 1.66 1.77 1.53 1.39 1.4 2.08 8.32 1.79 3.52 ...
+##  $ AreaBasal       : num [1:20321] 1.575 0.789 0.594 0.876 0.531 ...
+##  $ Volume          : num [1:20321] 4.13 1.66 1.77 1.53 1.39 ...
 ##  $ Destino         : chr [1:20321] &quot;REM&quot; &quot;PS&quot; &quot;CF&quot; &quot;REM&quot; ...
 ##  $ DistanciaPatio  : num [1:20321] 346 335 327 322 323 ...
-##  $ PatioMaisProximo: num [1:20321] 40101 40101 40101 40101 40101 ...
-##  - attr(*, &quot;spec&quot;)=
-##   .. cols(
-##   ..   CodArvore = col_double(),
-##   ..   Data = col_character(),
-##   ..   UT = col_double(),
-##   ..   Linha = col_double(),
-##   ..   UCA = col_double(),
-##   ..   Xcorrigido = col_double(),
-##   ..   Ycorrigido = col_double(),
-##   ..   Arvore = col_double(),
-##   ..   DAP = col_double(),
-##   ..   Altura = col_double(),
-##   ..   Fuste = col_double(),
-##   ..   Cipo = col_double(),
-##   ..   Especie = col_character(),
-##   ..   ClasseDAP = col_character(),
-##   ..   AreaBasal = col_double(),
-##   ..   Volume = col_double(),
-##   ..   Destino = col_character(),
-##   ..   DistanciaPatio = col_double(),
-##   ..   PatioMaisProximo = col_double()
-##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+##  $ PatioMaisProximo: num [1:20321] 40101 40101 40101 40101 40101 ...</code></pre>
 <p>Para acesso direto a qualquer um dos demais arquivos de dados mantidos neste repositório, basta usar procedimento similar. Caso encontre alguma inconsistência nas informações deste repositório, ou queira registrar um comentário, clique em <a href="https://github.com/LuizEstraviz/FlorestaR_dados/issues"><code>issues</code></a> no menu do repositório <a href="https://github.com/LuizEstraviz/FlorestaR_dados">github.com/LuizEstraviz/FlorestaR_dados</a> e deixe a sua contribuição clicando no botão <code>New issue</code>.</p>
 <p>Agradecemos o seu interesse por esta iniciativa.</p>
+</div>
 </div>
 
 

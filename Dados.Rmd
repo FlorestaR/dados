@@ -7,10 +7,15 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-if(!require(tidyverse)){
+
+if(!require(rio))
+  install.packages('rio', dependencies = TRUE)
+library(rio)
+
+if(!require(tidyverse))
   install.packages('tidyverse', dependencies = TRUE)
-  require(tidyverse)
-}
+library(tidyverse)
+
 ```
 
 ------------------------------------------------------------------------
@@ -48,9 +53,13 @@ Os dados usados para ilustrar os exemplos estão organizados da seguinte forma:
 
 # Como acessar os dados dos exercícios
 
-Os dados deste repositório [github](https://github.com/LuizEstraviz/FlorestaR_dados) podem ser acessados diretamente do seu código R. Como os dados foram bem estruturados, pois seguem as regras [tidy](https://r4ds.had.co.nz/tidy-data.html)), é possível explorá-los com funções **tidyverse**. Por exemplo, o conteúdo da planilha [Censo_UPA04.csv](https://github.com/LuizEstraviz/LivroDados/tree/main/1_Amazonia) pode ser armazenado em um objeto `dados`, da seguinte forma:
+Os dados deste repositório foram estruturados segundo regras [tidy](https://r4ds.had.co.nz/tidy-data.html) para facilitar o uso de funções **tidyverse**, e podem ser acessados diretamente do seu código R.
 
-```{r ledados, message=FALSE, echo=TRUE}
+### Formato CSV
+
+O conteúdo da planilha `Censo_UPA04.csv` pode ser armazenado em um objeto `dados`, da seguinte forma:
+
+```{r ledados1, message=FALSE, echo=TRUE}
 gitOnde = "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
 gitNome = "Censo_UPA04.csv"
 gitArqv = paste0(gitOnde, gitNome, "?raw=true")
@@ -62,7 +71,23 @@ dados = readr::read_csv(gitArqv)
 
 `gitOnde` define a pasta dentro do repositório, `gitNome` define o arquivo de dados e `gitArqv` junta essas duas informações ao termo `?raw=true` para que o endereço URL completo possa ser usado na função `read_csv()` do pacote **readr** da coleção **tidyverse**. A função `read_csv()` do pacote **readr** permite que um usuário R conectado à internet leia diretamente dados mantidos em repositórios [github](https://github.com).
 
-A tabela de dados resultante registra medições reais de um censo de árvores realizado em 2010, numa área de floresta amazônica no estado de Rondônia, próxima à divisa com o Acre. Para exibir a estrutura de `dados`, podemos usar a função `str()` do R:
+### Formato XLSX
+
+Para ler a versão `xlsx` da mesma planilha (Censo_UPA04.xlsx), uma alternativa é usar a função `import()` do pacote **rio**:
+
+```{r ledados2, message=FALSE, echo=TRUE}
+gitOnde = "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
+gitNome = "Censo_UPA04.xlsx"
+gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
+
+dados   <- tibble(rio::import(gitArqv))
+
+# O resultado é uma tibble com 20.321 linhas e 19 variáveis
+```
+
+### Acesso à estrutura dos dados
+
+No exemplo acima, a tabela `dados` resultante registra medições reais de um censo de árvores realizado em 2010, numa área de floresta amazônica no estado de Rondônia, próxima à divisa com o Acre. Para exibir a estrutura dessa tabela, podemos usar a função `str()` do R:
 
 ```{r colunas, message=FALSE, echo=TRUE}
 str(dados)
