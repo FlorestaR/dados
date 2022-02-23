@@ -45,7 +45,7 @@ Os dados usados para ilustrar os exemplos estão organizados da seguinte forma:
 |:-------------|:-----------------------------------------------|
 | 1_Amazonia   | Árvores inventariadas na Amazônia              |
 | 2_Cubadas    | Árvores cubadas para estudos de volumetria     |
-| 3_Corredores | Ávores inventariadas em corredores ecológicos  |
+| 3_Corredores | Árvores inventariadas em corredores ecológicos |
 | 4_Eucalyptus | Árvores inventariadas em plantio de eucalipto  |
 | 5_Lidar      | Nuvens de pontos gerada por sobrevoos LiDAR    |
 
