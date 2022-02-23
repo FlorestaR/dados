@@ -8,15 +8,12 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-
 if(!require(rio))
   install.packages('rio', dependencies = TRUE)
 library(rio)
-
 if(!require(tidyverse))
   install.packages('tidyverse', dependencies = TRUE)
 library(tidyverse)
-
 ```
 
 ------------------------------------------------------------------------
@@ -80,9 +77,7 @@ O conteúdo da planilha `Censo_UPA04.csv` pode ser armazenado em um objeto `dado
 gitOnde <- "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
 gitNome <- "Censo_UPA04.csv"
 gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
-
 dados   <- readr::read_csv(gitArqv)
-
 # O resultado é uma tibble com 20.321 linhas e 19 variáveis
 ```
 
@@ -96,9 +91,7 @@ Para ler a versão `xlsx` da mesma planilha (Censo_UPA04.xlsx), uma alternativa 
 gitOnde <- "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
 gitNome <- "Censo_UPA04.xlsx"
 gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
-
 dados   <- tibble(rio::import(gitArqv))
-
 # O resultado é uma tibble com 20.321 linhas e 19 variáveis
 ```
 
