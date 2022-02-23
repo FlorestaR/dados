@@ -1,26 +1,24 @@
 ---
-title: "Acesso aos dados da série FlorestaR"
+title: "FlorestaR - acesso aos dados do projeto"
 author: "Luiz C. E. Rodriguez, Eric B. Gorgens, Humberto T. Menecheli Filho, Nathan O. Barreto, João V.L. Marinho, Arthur K. Sanchez, José J. Monteiro"
+description: "Acesso aos dados usados nos exercícios."
 date: "`r Sys.Date()`"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-
 if(!require(rio))
   install.packages('rio', dependencies = TRUE)
 library(rio)
-
 if(!require(tidyverse))
   install.packages('tidyverse', dependencies = TRUE)
 library(tidyverse)
-
 ```
 
 ------------------------------------------------------------------------
 
-# Série FlorestaR
+# O projeto FlorestaR
 
 O projeto *FlorestaR* reúne estudantes e professores interessados no **uso do R como ferramenta de análise de dados florestais**. Para isso, os membros do projeto trabalham como autores e redigem coletivamente uma coleção de livros.
 
@@ -63,9 +61,7 @@ O conteúdo da planilha `Censo_UPA04.csv` pode ser armazenado em um objeto `dado
 gitOnde <- "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
 gitNome <- "Censo_UPA04.csv"
 gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
-
 dados   <- readr::read_csv(gitArqv)
-
 # O resultado é uma tibble com 20.321 linhas e 19 variáveis
 ```
 
@@ -79,9 +75,7 @@ Para ler a versão `xlsx` da mesma planilha (Censo_UPA04.xlsx), uma alternativa 
 gitOnde <- "https://github.com/LuizEstraviz/LivroDados/blob/main/1_Amazonia/"
 gitNome <- "Censo_UPA04.xlsx"
 gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
-
 dados   <- tibble(rio::import(gitArqv))
-
 # O resultado é uma tibble com 20.321 linhas e 19 variáveis
 ```
 
