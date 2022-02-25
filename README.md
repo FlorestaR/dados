@@ -6,7 +6,7 @@ Os dados estão organizados nas seguintes pastas:
 
 | Pasta        | Conteúdo     |
 |:-------------|:-------------|
-| 1_Amazonia | Árvores inventariadas na Amazônia ([link])(https://www.luizestraviz.com/FlorestaR/Dados.html))|
+| 1_Amazonia | Árvores inventariadas na Amazônia ([link](https://www.luizestraviz.com/FlorestaR/Dados.html))|
 | 2_Cubadas | Árvores cubadas para estudos de volumetria |
 | 3_Corredores | Árvores inventariadas em corredores ecológicos |
 | 4_Eucalyptus | Árvores inventariadas em plantio de eucalipto |
