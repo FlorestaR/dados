@@ -1,6 +1,8 @@
 # Amazonia
 
-Lista de árvores inventariadas em 2010 para um plano de manejo em área localizada às margens da BR 364 no município de Porto Velho, Rondônia. Os dados se referem à UPA (Unidade de Produção Anual) número 4.  A tabela abaixo apresenta os códigos usados para identificar o destino das árvores inventariadas.
+Lista de árvores inventariadas em 2010 para um plano de manejo em área localizada às margens da BR 364 no município de Porto Velho, Rondônia. Os dados se referem à UPA (Unidade de Produção Anual) número 4. 
+
+A tabela abaixo apresenta os códigos usados para identificar o destino das árvores inventariadas.
 
 | Código | Destinação |
 |--------|------------| 
