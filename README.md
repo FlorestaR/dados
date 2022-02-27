@@ -4,13 +4,13 @@ Repositório usado para armazenar os dados do projeto *FlorestaR*. Clique [aqui]
 
 Os dados estão organizados nas seguintes pastas:
 
-| Pasta        | Conteúdo       |
+| Pasta | Conteúdo |
 |:-------------|:-------------|
-| 1_Amazonia | Árvores inventariadas na Amazônia |
-| 2_Cubadas | Árvores cubadas para estudos de volumetria |
-| 3_Corredores | Árvores inventariadas em corredores ecológicos |
-| 4_Eucalyptus | Árvores inventariadas em plantio de eucalipto |
-| 5_Lidar | Nuvens de pontos gerada por sobrevoos LiDAR |
+| 1_AMAZON  | Árvores inventariadas na Amazônia |
+| 2_RESTAU  | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
+| 3_VOLIND  | Árvores de *Eucalytus* cubadas para modelagem de volume individual |
+| 4_INVENT  | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional |
+| 5_LIDARF  | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa |
 
 O projeto *FlorestaR* reúne estudantes e professores interessados no **uso do R como ferramenta de análise de dados florestais**. Para isso, os membros do projeto trabalham como autores de uma coleção de livros. Essa coleção evolui. No momento a coleção é constituida pelos seguintes volumes:
 * Vol_01 - Análise exploratória de dados florestais

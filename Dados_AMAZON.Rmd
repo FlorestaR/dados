@@ -1,0 +1,120 @@
+---
+title: "FlorestaR - acesso aos dados (AMAZON)"
+author: "Luiz C. E. Rodriguez, Eric B. Gorgens, Humberto T. Menecheli Filho, Nathan O. Barreto, João V.L. Marinho, Arthur K. Sanchez, José J. Monteiro"
+description: "Instruções para acessar os dados diretamente do código R usado nos exercícios dos livros da série FlorestaR"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+if(!require(rio))
+  install.packages('rio', dependencies = TRUE)
+if(!require(tidyverse))
+  install.packages('tidyverse', dependencies = TRUE)
+if(!require(sf))
+  install.packages('sf', dependencies = TRUE)
+```
+
+------------------------------------------------------------------------
+
+# O projeto Floresta*R*
+
+O projeto **Floresta*R*** reúne estudantes e professores interessados no **uso do R como ferramenta de análise de dados florestais**. Essa equipe trabalha de forma colaborativa para redigir os livros da série **Floresta*R***.
+
+------------------------------------------------------------------------
+
+# Sobre os autores
+
+Os autores dos volumes 1 a 4 da série **Floresta*R*** são:
+
+-   [**Luiz Carlos Estraviz Rodriguez**]{.ul}, professor titular da Escola Superior de Agricultura Luiz de Queiroz (ESALQ) da Universidade de São Paulo
+-   [**Eric Bastos Gorgens**]{.ul}, professor do Departamento de Engenharia Florestal da Universidade Federal dos Vales do Jequitinhonha e Mucuri (UFVJM)
+-   [**Humberto Tadeu Menecheli Filho**]{.ul}, engenheiro florestal analista de dados da ForLiDAR
+-   [**Nathan de Oiveira Barreto**]{.ul}, graduando de engenharia florestal da ESALQ/USP
+-   [**João Victor Lopes Marinho**]{.ul}, graduando de engenharia florestal da ESALQ/USP
+-   [**Arthur Kaufmann Sanchez**]{.ul}, graduando de engenharia florestal da ESALQ/USP
+-   [**José Jorge Monteiro Junior**]{.ul}, engenheiro florestal mestrando do programa de pós-graduação em Recursos Florestais da ESALQ/USP
+
+------------------------------------------------------------------------
+
+# Sobre os livros
+
+A coleção está em constante evolução, e no momento é constituida pelos seguintes volumes:
+
+-   **Vol_01** Análise exploratória de dados florestais
+-   **Vol_02** Inferência estatística com dados florestais
+-   **Vol_03** Amostragem para fins de inventário florestal
+-   **Vol_04** Processamento de dados LiDAR para o monitoramento de florestas
+
+------------------------------------------------------------------------
+
+# Conjunto de dados
+
+Os dados usados para ilustrar os exemplos estão organizados da seguinte forma:
+
+| Pasta    | Conteúdo                                                                                       |
+|:---------|:-----------------------------------------------------------------------------------------------|
+| 1_AMAZON | Árvores inventariadas na Amazônia                                                              |
+| 2_RESTAU | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
+| 3_VOLIND | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
+| 4_INVENT | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
+| 5_LIDARF | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
+
+------------------------------------------------------------------------
+
+# Acesso aos dados da pasta AMAZON
+
+A pasta `AMAZON` contém os dados necessários para analisar as árvores inventariadas em 2010 para preparação de um plano de manejo em área localizada às margens da BR 364 no município de Porto Velho, Rondônia. O estudo se refere à UPA (Unidade de Produção Anual) número 4, e as árvores inventariadas tiveram a sua localização, os principais atributos e o destino registrados.
+
+A informação é disponibilizada neste repositório de forma aberta para proporcionar maior acessibilidade e para tornar reproduzíveis os exemplos apresentados. Os dados foram estruturados em tabelas [tidy](https://r4ds.had.co.nz/tidy-data.html) e [shape](https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf) para facilitar o uso das funções **tidyverse** e **sf** do ***R*** .
+
+### . Formato CSV
+
+O conteúdo da planilha `Censo_UPA04.csv` pode ser armazenado em um objeto `dados`, da seguinte forma:
+
+```{r ledados1, message=FALSE, echo=TRUE}
+gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/"
+gitNome <- "Censo_UPA04.csv"
+gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
+
+library(tidyverse)
+dados   <- readr::read_csv(gitArqv)
+# O resultado é uma tibble com 20.321 linhas e 19 variáveis
+```
+
+`gitOnde` define a pasta dentro do repositório, `gitNome` define o arquivo de dados e `gitArqv` junta essas duas informações ao termo `?raw=true` para que o endereço URL completo possa ser usado na função `read_csv()` do pacote **readr** da coleção **tidyverse**. A função `read_csv()` do pacote **readr** permite que um usuário R conectado à internet leia diretamente dados mantidos em repositórios [github](https://github.com).
+
+### . Formato XLSX
+
+Para ler a versão `xlsx` da mesma planilha (Censo_UPA04.xlsx), uma alternativa é usar a função `import()` do pacote **rio**:
+
+```{r ledados2, message=FALSE, echo=TRUE}
+gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/"
+gitNome <- "Censo_UPA04.xlsx"
+gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
+
+library(tidyverse); library(rio)
+dados   <- tibble(rio::import(gitArqv))
+# O resultado é uma tibble com 20.321 linhas e 19 variáveis
+```
+
+Nos dois casos acima, o objeto `dados` registra medições reais e tem uma estrutura que pode ser exposta pela função `str()`:
+
+```{r colunas, message=FALSE, echo=TRUE}
+str(dados)
+```
+
+### . Formato *`shape`*
+
+Esta seção mostra como acessar o conjunto completo de atributos das árvores com a sua localização geográfica precisamente definida. Para isso, usa-se a função do pacote **sf** do **R**, que permite ler as camadas vetoriais (layers) de informação armazenadas no formato `shape`.
+
+\`\`\`{r ledados2, message=FALSE, echo=TRUE} gitOnde \<- "<https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/shapes>" gitNome \<- "Censo_UPA04.xlsx" gitArqv \<- paste0(gitOnde, gitNome, "?raw=true")
+
+library(tidyverse); library(sf) dados \<- tibble(sf::read_sf(gitArqv)) \# O resultado é uma tibble com 20.321 linhas e 19 variáveis
+
+------------------------------------------------------------------------
+
+Caso encontre alguma inconsistência nas informações deste repositório, ou queira registrar um comentário, clique em [`issues`](https://github.com/LuizEstraviz/FlorestaR_dados/issues) no menu do repositório [github.com/LuizEstraviz/FlorestaR_dados](https://github.com/LuizEstraviz/FlorestaR_dados) e deixe a sua contribuição clicando no botão `New issue`. Agradecemos o seu interesse por esta iniciativa.
+
+Disclaimer: Os dados são disponibilizados para fins exclusivamente educativos e não devem ser usados para outro propósito. O uso fora do contexto para o qual estão sendo distribuídos, mesmo que apenas parcialmente, produzirá resultados impróprios, pois alguns dos seus atributos originais foram propositalmente alterados para simplificar a realidade. Os autores não se responsabilizam pelo uso indevido que, além de infringir códigos científicos e éticos de conduta, extrapole o caráter apenas ilustrativo dos exemplos apresentados na série de livros **Floresta*R***.
