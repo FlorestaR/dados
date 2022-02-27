@@ -53,13 +53,19 @@ A coleção está em constante evolução, e no momento é constituida pelos seg
 
 Os dados usados para ilustrar os exemplos estão organizados da seguinte forma:
 
-| Pasta    | Conteúdo                                                                                       |
-|:---------|:-----------------------------------------------------------------------------------------------|
-| 1_AMAZON | Árvores inventariadas na Amazônia                                                              |
-| 2_RESTAU | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
-| 3_VOLIND | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
-| 4_INVENT | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
-| 5_LIDARF | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
++-----------+------------------------------------------------------------------------------------------------+
+| Pasta     | Conteúdo                                                                                       |
++:==========+:===============================================================================================+
+| 1_AMAZON  | Árvores inventariadas na Amazônia                                                              |
++-----------+------------------------------------------------------------------------------------------------+
+| 2_RESTAU  | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
++-----------+------------------------------------------------------------------------------------------------+
+| 3_VOLIND  | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
++-----------+------------------------------------------------------------------------------------------------+
+| 4_INVENT  | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
++-----------+------------------------------------------------------------------------------------------------+
+| 5_LIDARF  | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
++-----------+------------------------------------------------------------------------------------------------+
 
 ------------------------------------------------------------------------
 
@@ -67,14 +73,14 @@ Os dados usados para ilustrar os exemplos estão organizados da seguinte forma:
 
 A pasta `AMAZON` contém os dados necessários para analisar as árvores inventariadas em 2010 para preparação de um plano de manejo em área localizada às margens da BR 364 no município de Porto Velho, Rondônia. O estudo se refere à UPA (Unidade de Produção Anual) número 4, e as árvores inventariadas tiveram a sua localização, os principais atributos e o destino registrados.
 
-A informação é disponibilizada neste repositório de forma aberta para proporcionar maior acessibilidade e para tornar reproduzíveis os exemplos apresentados. Os dados foram estruturados em tabelas [tidy](https://r4ds.had.co.nz/tidy-data.html) e [shape](https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf) para facilitar o uso das funções **tidyverse** e **sf** do ***R*** .
+A informação é disponibilizada neste repositório de forma aberta para proporcionar maior acessibilidade e para tornar reproduzíveis os exemplos apresentados. Os dados foram estruturados em tabelas [tidy](https://r4ds.had.co.nz/tidy-data.html) e `shape` para facilitar o uso das funções **tidyverse** e **sf** do ***R*** .
 
 ### . Formato CSV
 
 O conteúdo da planilha `Censo_UPA04.csv` pode ser armazenado em um objeto `dados`, da seguinte forma:
 
 ```{r ledados1, message=FALSE, echo=TRUE}
-gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/"
+gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/tree/main/1_AMAZON/"
 gitNome <- "Censo_UPA04.csv"
 gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
 
@@ -90,7 +96,7 @@ dados   <- readr::read_csv(gitArqv)
 Para ler a versão `xlsx` da mesma planilha (Censo_UPA04.xlsx), uma alternativa é usar a função `import()` do pacote **rio**:
 
 ```{r ledados2, message=FALSE, echo=TRUE}
-gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/"
+gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/tree/main/1_AMAZON/"
 gitNome <- "Censo_UPA04.xlsx"
 gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
 
@@ -109,9 +115,15 @@ str(dados)
 
 Esta seção mostra como acessar o conjunto completo de atributos das árvores com a sua localização geográfica precisamente definida. Para isso, usa-se a função do pacote **sf** do **R**, que permite ler as camadas vetoriais (layers) de informação armazenadas no formato `shape`.
 
-\`\`\`{r ledados2, message=FALSE, echo=TRUE} gitOnde \<- "<https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/shapes>" gitNome \<- "Censo_UPA04.xlsx" gitArqv \<- paste0(gitOnde, gitNome, "?raw=true")
+```{r ledados3, message=FALSE, echo=TRUE}
+gitOnde <- "<https://github.com/LuizEstraviz/FlorestaR_dados/tree/main/1_AMAZON/shapes/>"
+gitNome <- "Arvores.shp"
+gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
 
-library(tidyverse); library(sf) dados \<- tibble(sf::read_sf(gitArqv)) \# O resultado é uma tibble com 20.321 linhas e 19 variáveis
+library(tidyverse); library(sf)
+dados  <- sf::read_sf(gitArqv)
+# O resultado é uma tibble com 20.321 linhas e 19 variáveis
+```
 
 ------------------------------------------------------------------------
 
