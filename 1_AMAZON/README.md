@@ -8,6 +8,6 @@ Lista de árvores inventariadas em 2010 para um plano de manejo em área localiz
 | CF | Corte futuro (árvore com DAP entre 40 e 50 cm) |
 | CPL | Corte protegido por lei |
 | PAB | Para abate |
-| OS | Porta semente |
+| PS | Porta semente |
 | RAR | Rara |
 | REM | Remanescente |

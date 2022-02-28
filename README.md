@@ -6,7 +6,7 @@ Os dados estão organizados nas seguintes pastas:
 
 | Pasta | Conteúdo |
 |:-------------|:-------------|
-| 1_AMAZON  | Árvores inventariadas na Amazônia |
+| 1_AMAZON  | Árvores inventariadas na Amazônia [link](https://luizestraviz.com/FlorestaR/Dados_AMAZON.html){target="_blank"} |
 | 2_RESTAU  | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
 | 3_VOLIND  | Árvores de *Eucalytus* cubadas para modelagem de volume individual |
 | 4_INVENT  | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional |

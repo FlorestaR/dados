@@ -1,5 +1,5 @@
 ---
-title: "FlorestaR - acesso aos dados (AMAZON)"
+title: "FlorestaR - acesso ao conjunto AMAZON de dados"
 author: "Luiz C. E. Rodriguez, Eric B. Gorgens, Humberto T. Menecheli Filho, Nathan O. Barreto, João V.L. Marinho, Arthur K. Sanchez, José J. Monteiro"
 description: "Instruções para acessar os dados diretamente do código R usado nos exercícios dos livros da série FlorestaR"
 date: "`r Sys.Date()`"
@@ -8,19 +8,24 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+rm(list=ls(all=TRUE))                                   # Limpa memória
+gc()
+
 if(!require(rio))
   install.packages('rio', dependencies = TRUE)
 if(!require(tidyverse))
   install.packages('tidyverse', dependencies = TRUE)
 if(!require(sf))
   install.packages('sf', dependencies = TRUE)
+if(!require(mapview))
+  install.packages('mapview', dependencies = TRUE)
 ```
 
 ------------------------------------------------------------------------
 
 # O projeto Floresta*R*
 
-O projeto **Floresta*R*** reúne estudantes e professores interessados no **uso do R como ferramenta de análise de dados florestais**. Essa equipe trabalha de forma colaborativa para redigir os livros da série **Floresta*R***.
+O projeto **Floresta*R*** reúne estudantes, profissionais e professores interessados no **uso do R como ferramenta de análise de dados florestais**. Essa equipe trabalha de forma colaborativa para redigir os livros da série **Floresta*R***.
 
 ------------------------------------------------------------------------
 
@@ -53,66 +58,80 @@ A coleção está em constante evolução, e no momento é constituida pelos seg
 
 Os dados usados para ilustrar os exemplos estão organizados da seguinte forma:
 
-+-----------+------------------------------------------------------------------------------------------------+
-| Pasta     | Conteúdo                                                                                       |
-+:==========+:===============================================================================================+
-| 1_AMAZON  | Árvores inventariadas na Amazônia                                                              |
-+-----------+------------------------------------------------------------------------------------------------+
-| 2_RESTAU  | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
-+-----------+------------------------------------------------------------------------------------------------+
-| 3_VOLIND  | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
-+-----------+------------------------------------------------------------------------------------------------+
-| 4_INVENT  | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
-+-----------+------------------------------------------------------------------------------------------------+
-| 5_LIDARF  | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
-+-----------+------------------------------------------------------------------------------------------------+
+| Pasta    | Conteúdo                                                                                       |
+|:---------|:-----------------------------------------------------------------------------------------------|
+| 1_AMAZON | Árvores inventariadas na Amazônia                                                              |
+| 2_RESTAU | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
+| 3_VOLIND | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
+| 4_INVENT | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
+| 5_LIDARF | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
 
 ------------------------------------------------------------------------
 
 # Acesso aos dados da pasta AMAZON
 
-A pasta `AMAZON` contém os dados necessários para analisar as árvores inventariadas em 2010 para preparação de um plano de manejo em área localizada às margens da BR 364 no município de Porto Velho, Rondônia. O estudo se refere à UPA (Unidade de Produção Anual) número 4, e as árvores inventariadas tiveram a sua localização, os principais atributos e o destino registrados.
+A pasta `AMAZON` contém as medições de árvores inventariadas em 2010 para fins de manejo florestal. Implantado às margens da BR 364, no município de Porto Velho (RO) em área próxima à divisa com o Acre, o plano se refere à UPA 4 (Unidade de Produção Anual número 4). Todas árvores (*censo 100%*) com mais de 40cm de diâmetro à altura do peito (DAP) nessa área foram identificadas, geolocalizadas, medidas e destinadas para compor um dos seguintes grupos:
 
-A informação é disponibilizada neste repositório de forma aberta para proporcionar maior acessibilidade e para tornar reproduzíveis os exemplos apresentados. Os dados foram estruturados em tabelas [tidy](https://r4ds.had.co.nz/tidy-data.html) e `shape` para facilitar o uso das funções **tidyverse** e **sf** do ***R*** .
+| Código | Destinação                                     |
+|--------|------------------------------------------------|
+| APP    | Em área de preservação permanente              |
+| CF     | Corte futuro (árvore com DAP entre 40 e 50 cm) |
+| CPL    | Corte protegido por lei                        |
+| PAB    | Para abate                                     |
+| PS     | Porta semente                                  |
+| RAR    | Rara                                           |
+| REM    | Remanescente                                   |
 
-### . Formato CSV
+O acesso aos dados deste repositório é mantido aberto para maximizar acessibilidade e permitir a reprodutibilidade dos exemplos publicados nos livros da série **Floresta*R***. Os dados foram estruturados em tabelas [tidy](https://r4ds.had.co.nz/tidy-data.html){target="_blank"} e [shape](https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf){target="_blank"} para facilitar o uso das funções **tidyverse** e **sf** do ***R***.
 
-O conteúdo da planilha `Censo_UPA04.csv` pode ser armazenado em um objeto `dados`, da seguinte forma:
+As medições na UPA4 geraram dados sobre 20.108 árvores. Esses dados foram armazenados em planilhas `CSV` e `XLSX`, e na tabela de atributos de um `shape` de pontos georeferenciados que identifica a precisa localização dessas árvores.
 
-```{r ledados1, message=FALSE, echo=TRUE}
-gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/"
-gitNome <- "Censo_UPA04.csv"
-gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
+### . Formato `CSV`
 
+O conteúdo da planilha `Censo_UPA04.csv` pode ser importado para uma *tibble* `dados`, da seguinte forma:
+
+```{r readCSV, message=FALSE, echo=TRUE}
 library(tidyverse)
-dados   <- tibble(readr::read_csv(file = gitArqv, 
-                                  locale = readr::locale(encoding = "latin1")))
-dados$dia <- as.Date(dados$dia, "%d/%m/%Y")
+gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON"
+gitNome <- "Censo_UPA04.csv"
+gitArqv <- file.path(gitOnde, gitNome) %>% paste0("?raw=true")
+  
+# importação de dados CSV, suprimindo msg sobre colunas
 # uso de locale() garante a leitura correta dos caracteres especiais
+dados <- read_csv(gitArqv,
+                  locale = locale(encoding = "latin1"),
+                  show_col_types = FALSE) %>% tibble()
+
+dados$dia <- dados$dia %>% as.Date("%d/%m/%Y")
 # Atenção para a conversão da data lida no campo dia ("%d/%m/%Y")
 # O resultado é uma tibble com 20.108 linhas e 17 variáveis
 ```
 
-`gitOnde` define a pasta dentro do repositório (repare a inclusão de `blob/main/` no URL), `gitNome` define o arquivo de dados e `gitArqv` junta essas duas informações ao termo `?raw=true` para que o URL completo seja corretamente usado pela função `read_csv()` do pacote **readr** da coleção **tidyverse**. A função `read_csv()` do pacote **readr** permite que um usuário R conectado à internet leia diretamente dados mantidos em repositórios [github](https://github.com).
+`gitOnde` define a pasta dentro do repositório, `gitNome` define o arquivo de dados e `gitArqv` concatena esses dois termos com o sufixo `?raw=true` para criar o devido URL. Em seguida o URL é passado para a função `read_csv()` do pacote **readr** do **tidyverse**.
 
-### . Formato XLSX
+A função `read_csv()` do pacote **readr** permite que um usuário R conectado à internet leia diretamente os dados mantidos em repositórios [github](https://github.com).
+
+### . Formato `XLSX`
 
 Para ler a versão `xlsx` da mesma planilha (Censo_UPA04.xlsx), uma alternativa é usar a função `import()` do pacote **rio**:
 
-```{r ledados2, message=FALSE, echo=TRUE}
-gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/"
+```{r readXLSX, message=FALSE, echo=TRUE}
+library(tidyverse)
+gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON"
 gitNome <- "Censo_UPA04.xlsx"
-gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
+gitArqv <- file.path(gitOnde, gitNome) %>% paste0("?raw=true")
+  
+library(rio)
 
-library(tidyverse); library(rio)
-
-dados   <- tibble(rio::import(file = gitArqv))
-dados$dia <- as.Date(dados$dia)
-# Não é necessário acertar leitura de caracteres especiais ou formatar data
+# importação de dados XLSX
+dados     <- import(file = gitArqv) %>% tibble()
+dados$dia <- dados$dia %>% as.Date()
 # O resultado é uma tibble com 20.108 linhas e 17 variáveis
 ```
 
-Nos dois casos acima, o objeto `dados` registra os atributos das árvores com mais de 40 cm de diâmetro à altura do peito (DAP) encontradas dentro da área de estudo. A estrutura desse obejeto pode ser exposta pela função `str()`:
+### . A *tibble* `dados`
+
+Para conhecer detalhes da estrutura da *tibble* `dados`, é só usar a função `str()`:
 
 ```{r colunas, message=FALSE, echo=TRUE}
 str(dados)
@@ -120,20 +139,119 @@ str(dados)
 
 ### . Formato *`shape`*
 
-Esta seção mostra como acessar o mesmo conjunto completo de atributos das árvores, mas desta vez com a respectiva localização geográfica precisamente definida. Para isso, usa-se a função do pacote **sf** do **R**, que permite ler camadas (*layers*) vetoriais de informação SIG armazenadas no formato `shape`.
+Os mesmos dados diposnibilizados nos formatos `CSV` e `XLSX` se encontram também disponíveis na tabela de atributos de um `shape file` com a localização geográfica precisa de cada árvore. O *download* da pasta zipada com esse `shape file` permite criar o objeto `dadosComGeo`, necessário para desenvolver os exercícios que demandam a precisa localização geográfica das árvores.
 
-```{r ledados3, message=FALSE, echo=TRUE}
-gitOnde <- "<https://github.com/LuizEstraviz/FlorestaR_dados/tree/main/1_AMAZON/shapes/>"
-gitNome <- "Arvores.shp"
+Os exercícios com as árvores georeferenciadas usam funções do pacote **sf** do **R**, que permite ler camadas vetoriais (*layers*) de informação SIG armazenadas no formato `shape`. Use o seguinte código para acessar essa informação.
+
+```{r readShp, message=FALSE, echo=TRUE}
+library(tidyverse)
+
+gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/"
+gitNome <- "shapes.zip"
 gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
 
-library(tidyverse); library(sf)
-dados  <- sf::read_sf(gitArqv)
-# O resultado é uma tibble com 20.321 linhas e 19 variáveis
+# criação de diretório e arquivo zip temporários para receber o zip remoto
+tmpd <- tempdir(check = TRUE)
+zipf <- file.path(tmpd, "shapes.zip")
+
+# faz download no mode "wb" para garantir o conteúdo binário
+if(!file.exists(zipf))
+  download.file(gitArqv, mode="wb", destfile = zipf)
+
+# descomprime os shapes no diretório temporário
+unzip(zipf, exdir = tmpd)
+
+# apaga o zip de shape
+unlink(zipf)
+
+library(sf)
+
+# lê a camada (layer) de árvores
+shpArq <- paste0(tmpd, "/shapes/Arvores.shp")
+# data frame sf com os atributos das árvores e respectivo atributos geométricos
+dadosComGeo <- sf::read_sf(shpArq)
+
+# drop a geometria para gerar a tibble de dados das árvores
+dadosSemGeo <- tibble(st_drop_geometry(dadosComGeo))
+
+# Exemplo de tabela com a cinco maiores castanheiras
+dadosSemGeo %>%
+  filter(nome=="castanheira") %>% 
+  select(codARV,sp,codUT,codUCA,dap,altura) %>% 
+  arrange(desc(altura)) %>% 
+  head(5) %>% 
+  knitr::kable(caption = "Lista das 5 maiores castanheiras")
+
+```
+
+É claro que, neste caso, o mais interessante é gerar gráficos que se aproveitam do georeferenciamento dos dados. O código abaixo, por exemplo, filtra a tabela de atributos do `shape` `Arvores` para ficar apenas com as árvores de `Castanheira`. Lê os demais `shapes` e integra a localização dessas árvores com os limites das UTs e das APPs.
+
+```{r plotShp, message=FALSE, echo=TRUE}
+library(tidyverse)
+
+gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/"
+gitNome <- "shapes.zip"
+gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
+
+# criação de diretório e arquivo zip temporários para receber o zip remoto
+tmpd <- tempdir(check = TRUE)
+zipf <- file.path(tmpd, "shapes.zip")
+
+# faz download no mode "wb" para garantir o conteúdo binário
+if(!file.exists(zipf))
+  download.file(gitArqv, mode="wb", destfile = zipf)
+
+# descomprime os shapes no diretório temporário
+unzip(zipf, exdir = tmpd)
+
+# apaga o zip de shape
+unlink(zipf)
+
+library(sf)
+
+# leitura dos shapes disponíveis
+shpArq <- paste0(tmpd, "/shapes/Arvores.shp")
+dadosArv <- sf::read_sf(shpArq)
+
+shpArq <- paste0(tmpd, "/shapes/UCAs.shp")
+dadosUca <- sf::read_sf(shpArq)
+
+shpArq <- paste0(tmpd, "/shapes/UTs.shp")
+dadosUts <- sf::read_sf(shpArq)
+
+shpArq <- paste0(tmpd, "/shapes/APP.shp")
+dadosApp <- sf::read_sf(shpArq)
+
+shpArq <- paste0(tmpd, "/shapes/Hidrografia.shp")
+dadosHid <- sf::read_sf(shpArq)
+
+shpArq <- paste0(tmpd, "/shapes/Estrada.shp")
+dadosEst <- sf::read_sf(shpArq)
+
+shpArq <- paste0(tmpd, "/shapes/Ramal.shp")
+dadosRam <- sf::read_sf(shpArq)
+
+shpArq <- paste0(tmpd, "/shapes/Patios.shp")
+dadosRam <- sf::read_sf(shpArq)
+
+# novo objeto sf contendo apenas as árvores de interesse e quatro atributos
+Especie <- dadosArv %>%
+  filter(nome=="castanheira") %>% 
+  select(codARV,altura,dap,volume) 
+
+# plota mapa de UTs, APPs e árvores selecionadas coloridas por altura
+ggplot() + 
+  geom_sf(data = dadosUts, colour = "red", fill=NA) +
+  geom_sf(data = dadosApp, colour = "lightblue") +
+  geom_sf(data = Especie, aes(colour = altura), size = 1) +
+  scale_color_distiller(palette = "Greens", trans = "reverse") + 
+  coord_sf(datum=st_crs(29190)) +     # Sistema de coordenadas dos dados
+  scale_x_continuous(breaks = seq(from = 218500, to = 223000, by = 1000))
+
 ```
 
 ------------------------------------------------------------------------
 
 Caso encontre alguma inconsistência nas informações deste repositório, ou queira registrar um comentário, clique em [`issues`](https://github.com/LuizEstraviz/FlorestaR_dados/issues) no menu do repositório [github.com/LuizEstraviz/FlorestaR_dados](https://github.com/LuizEstraviz/FlorestaR_dados) e deixe a sua contribuição clicando no botão `New issue`. Agradecemos o seu interesse por esta iniciativa.
 
-Disclaimer: Os dados são disponibilizados para fins exclusivamente educativos e não devem ser usados para outro propósito. O uso fora do contexto para o qual estão sendo distribuídos, mesmo que apenas parcialmente, produzirá resultados impróprios, pois alguns dos seus atributos originais foram propositalmente alterados para simplificar a realidade. Os autores não se responsabilizam pelo uso indevido que, além de infringir códigos científicos e éticos de conduta, extrapole o caráter apenas ilustrativo dos exemplos apresentados na série de livros **Floresta*R***.
+Disclaimer: Os dados são disponibilizados para fins exclusivamente educativos e não devem ser usados para outro propósito. O uso fora do contexto para o qual estão sendo disponibilizados, mesmo que apenas parcialmente, além de indevido, produzirá resultados impróprios, pois alguns dos atributos originais desses dados foram propositalmente modificados para simplificar a realidade. Os autores não se responsabilizam pelo uso indevido que, além de infringir códigos científicos e éticos de conduta, extrapole o caráter ilustrativo dos exercícios que apresentamos na série de livros **Floresta*R***.
