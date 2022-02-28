@@ -11,6 +11,10 @@ knitr::opts_chunk$set(echo = FALSE)
 rm(list=ls(all=TRUE))                                   # Limpa memória
 gc()
 
+if(!require(klippy))
+  remotes::install_github("rlesur/klippy")
+library(klippy)
+
 if(!require(rio))
   install.packages('rio', dependencies = TRUE)
 if(!require(tidyverse))
@@ -19,6 +23,10 @@ if(!require(sf))
   install.packages('sf', dependencies = TRUE)
 if(!require(mapview))
   install.packages('mapview', dependencies = TRUE)
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy()
 ```
 
 ------------------------------------------------------------------------
