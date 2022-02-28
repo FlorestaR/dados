@@ -190,7 +190,7 @@ dadosComGeo <- sf::read_sf(shpArq)
 # drop a geometria para gerar a tibble de dados das árvores
 dadosSemGeo <- tibble(st_drop_geometry(dadosComGeo))
 
-# Exemplo de tabela com a cinco maiores castanheiras
+# Exemplo de tabela com as cinco maiores castanheiras
 dadosSemGeo %>%
   filter(nome=="castanheira") %>% 
   select(codARV,sp,codUT,codUCA,dap,altura) %>% 
