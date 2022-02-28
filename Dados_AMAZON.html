@@ -11,7 +11,7 @@
 
 <meta name="author" content="Luiz C. E. Rodriguez, Eric B. Gorgens, Humberto T. Menecheli Filho, Nathan O. Barreto, João V.L. Marinho, Arthur K. Sanchez, José J. Monteiro" />
 
-<meta name="date" content="2022-02-27" />
+<meta name="date" content="2022-02-28" />
 
 <title>FlorestaR - acesso ao conjunto AMAZON de dados</title>
 
@@ -167,7 +167,7 @@ pre code {
 
 <h1 class="title toc-ignore">FlorestaR - acesso ao conjunto AMAZON de dados</h1>
 <h4 class="author">Luiz C. E. Rodriguez, Eric B. Gorgens, Humberto T. Menecheli Filho, Nathan O. Barreto, João V.L. Marinho, Arthur K. Sanchez, José J. Monteiro</h4>
-<h4 class="date">2022-02-27</h4>
+<h4 class="date">2022-02-28</h4>
 
 </div>
 
@@ -307,7 +307,7 @@ dados$dia &lt;- dados$dia %&gt;% as.Date(&quot;%d/%m/%Y&quot;)
 </div>
 <div id="formato-xlsx" class="section level3">
 <h3>. Formato <code>XLSX</code></h3>
-<p>Para ler a versão <code>xlsx</code> da mesma planilha (Censo_UPA04.xlsx), uma alternativa é usar a função <code>import()</code> do pacote <strong>rio</strong>:</p>
+<p>Para ler a versão <code>xlsx</code> dos mesmos dados, uma alternativa é usar a função <code>import()</code> do pacote <strong>rio</strong>:</p>
 <pre class="r"><code>library(tidyverse)
 gitOnde &lt;- &quot;https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON&quot;
 gitNome &lt;- &quot;Censo_UPA04.xlsx&quot;
@@ -322,7 +322,7 @@ dados$dia &lt;- dados$dia %&gt;% as.Date()
 </div>
 <div id="a-tibble-dados" class="section level3">
 <h3>. A <em>tibble</em> <code>dados</code></h3>
-<p>Para conhecer detalhes da estrutura da <em>tibble</em> <code>dados</code>, é só usar a função <code>str()</code>:</p>
+<p>A função <code>str()</code> nos permite ver detalhes da estrutura da <em>tibble</em> <code>dados</code>:</p>
 <pre class="r"><code>str(dados)</code></pre>
 <pre><code>## tibble [20,108 x 17] (S3: tbl_df/tbl/data.frame)
 ##  $ codARV  : num [1:20108] 40100001 40100002 40100003 40100004 40100005 ...
@@ -345,8 +345,9 @@ dados$dia &lt;- dados$dia %&gt;% as.Date()
 </div>
 <div id="formato-shape" class="section level3">
 <h3>. Formato <em><code>shape</code></em></h3>
-<p>Os mesmos dados diposnibilizados nos formatos <code>CSV</code> e <code>XLSX</code> se encontram também disponíveis na tabela de atributos de um <code>shape file</code> com a localização geográfica precisa de cada árvore. O <em>download</em> da pasta zipada com esse <code>shape file</code> permite criar o objeto <code>dadosComGeo</code>, necessário para desenvolver os exercícios que demandam a precisa localização geográfica das árvores.</p>
-<p>Os exercícios com as árvores georeferenciadas usam funções do pacote <strong>sf</strong> do <strong>R</strong>, que permite ler camadas vetoriais (<em>layers</em>) de informação SIG armazenadas no formato <code>shape</code>. Use o seguinte código para acessar essa informação.</p>
+<p>Os dados diponibilizados nos formatos <code>CSV</code> e <code>XLSX</code> se encontram também disponíveis na tabela de atributos do <code>shape</code> <code>Arvores</code>, com a localização geográfica de cada árvore. O <em>download</em> desse, e de outros <code>shapes</code> complementares, premite reproduzir os exercícios de exploração de dados espacializados.</p>
+<p>Os exercícios com as árvores georeferenciadas usam funções do pacote <strong>sf</strong> do <strong>R</strong>. A função <code>read_sf()</code> desse pacote permite ler camadas vetoriais (<em>layers</em>) de informação SIG armazenadas no formato <code>shape</code>.</p>
+<p>Para download dos <code>shapes</code> e leitura da tabela de árvores georeferenciadas, sugere-se o seguinte procedimento:</p>
 <pre class="r"><code>library(tidyverse)
 
 gitOnde &lt;- &quot;https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/&quot;
@@ -439,7 +440,7 @@ dadosSemGeo %&gt;%
 </tr>
 </tbody>
 </table>
-<p>É claro que, neste caso, o mais interessante é gerar gráficos que se aproveitam do georeferenciamento dos dados. O código abaixo, por exemplo, filtra a tabela de atributos do <code>shape</code> <code>Arvores</code> para ficar apenas com as árvores de <code>Castanheira</code>. Lê os demais <code>shapes</code> e integra a localização dessas árvores com os limites das UTs e das APPs.</p>
+<p>Para ilustrar a vantagem de usar a versão georeferenciada dos dados, apresenta-se um exemplo que exibe as árvores de <code>Castanheira</code> integradas com os limites das UTs e das APPs.</p>
 <pre class="r"><code>library(tidyverse)
 
 gitOnde &lt;- &quot;https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/&quot;

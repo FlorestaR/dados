@@ -58,13 +58,19 @@ A coleção está em constante evolução, e no momento é constituida pelos seg
 
 Os dados usados para ilustrar os exemplos estão organizados da seguinte forma:
 
-| Pasta    | Conteúdo                                                                                       |
-|:---------|:-----------------------------------------------------------------------------------------------|
-| 1_AMAZON | Árvores inventariadas na Amazônia                                                              |
-| 2_RESTAU | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
-| 3_VOLIND | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
-| 4_INVENT | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
-| 5_LIDARF | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
++-----------+------------------------------------------------------------------------------------------------+
+| Pasta     | Conteúdo                                                                                       |
++:==========+:===============================================================================================+
+| 1_AMAZON  | Árvores inventariadas na Amazônia                                                              |
++-----------+------------------------------------------------------------------------------------------------+
+| 2_RESTAU  | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
++-----------+------------------------------------------------------------------------------------------------+
+| 3_VOLIND  | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
++-----------+------------------------------------------------------------------------------------------------+
+| 4_INVENT  | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
++-----------+------------------------------------------------------------------------------------------------+
+| 5_LIDARF  | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
++-----------+------------------------------------------------------------------------------------------------+
 
 ------------------------------------------------------------------------
 
@@ -113,7 +119,7 @@ A função `read_csv()` do pacote **readr** permite que um usuário R conectado 
 
 ### . Formato `XLSX`
 
-Para ler a versão `xlsx` da mesma planilha (Censo_UPA04.xlsx), uma alternativa é usar a função `import()` do pacote **rio**:
+Para ler a versão `xlsx` dos mesmos dados, uma alternativa é usar a função `import()` do pacote **rio**:
 
 ```{r readXLSX, message=FALSE, echo=TRUE}
 library(tidyverse)
@@ -131,7 +137,7 @@ dados$dia <- dados$dia %>% as.Date()
 
 ### . A *tibble* `dados`
 
-Para conhecer detalhes da estrutura da *tibble* `dados`, é só usar a função `str()`:
+A função `str()` nos permite ver detalhes da estrutura da *tibble* `dados`:
 
 ```{r colunas, message=FALSE, echo=TRUE}
 str(dados)
@@ -139,9 +145,11 @@ str(dados)
 
 ### . Formato *`shape`*
 
-Os mesmos dados diposnibilizados nos formatos `CSV` e `XLSX` se encontram também disponíveis na tabela de atributos de um `shape file` com a localização geográfica precisa de cada árvore. O *download* da pasta zipada com esse `shape file` permite criar o objeto `dadosComGeo`, necessário para desenvolver os exercícios que demandam a precisa localização geográfica das árvores.
+Os dados diponibilizados nos formatos `CSV` e `XLSX` se encontram também disponíveis na tabela de atributos do `shape` `Arvores`, com a localização geográfica de cada árvore. O *download* desse, e de outros `shapes` complementares, premite reproduzir os exercícios de exploração de dados espacializados.
 
-Os exercícios com as árvores georeferenciadas usam funções do pacote **sf** do **R**, que permite ler camadas vetoriais (*layers*) de informação SIG armazenadas no formato `shape`. Use o seguinte código para acessar essa informação.
+Os exercícios com as árvores georeferenciadas usam funções do pacote **sf** do **R**. A função `read_sf()` desse pacote permite ler camadas vetoriais (*layers*) de informação SIG armazenadas no formato `shape`.
+
+Para download dos `shapes` e leitura da tabela de árvores georeferenciadas, sugere-se o seguinte procedimento:
 
 ```{r readShp, message=FALSE, echo=TRUE}
 library(tidyverse)
@@ -184,7 +192,7 @@ dadosSemGeo %>%
 
 ```
 
-É claro que, neste caso, o mais interessante é gerar gráficos que se aproveitam do georeferenciamento dos dados. O código abaixo, por exemplo, filtra a tabela de atributos do `shape` `Arvores` para ficar apenas com as árvores de `Castanheira`. Lê os demais `shapes` e integra a localização dessas árvores com os limites das UTs e das APPs.
+Para ilustrar a vantagem de usar a versão georeferenciada dos dados, apresenta-se um exemplo que exibe as árvores de `Castanheira` integradas com os limites das UTs e das APPs.
 
 ```{r plotShp, message=FALSE, echo=TRUE}
 library(tidyverse)
