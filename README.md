@@ -1,4 +1,4 @@
-# LivroDados
+# Dados para a série de livros FlorestaR
 
 Repositório usado para armazenar os dados do projeto *FlorestaR*. Clique no _link_ para mais informações sobre como acessar esses dados diretamente do seu código R.
 
