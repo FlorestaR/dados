@@ -1,5 +1,5 @@
 ---
-title: "FlorestaR - acesso ao conjunto AMAZON de dados"
+title: "FlorestaR - dados do estudo de caso AMAZON"
 author: "Luiz C. E. Rodriguez, Eric B. Gorgens, Humberto T. Menecheli Filho, Nathan O. Barreto, João V.L. Marinho, Arthur K. Sanchez, José J. Monteiro"
 description: "Instruções para acessar os dados diretamente do código R usado nos exercícios dos livros da série FlorestaR"
 date: "`r Sys.Date()`"
@@ -33,13 +33,13 @@ klippy::klippy()
 
 # O projeto Floresta*R*
 
-O projeto **Floresta*R*** reúne estudantes, profissionais e professores interessados no **uso do R como ferramenta de análise de dados florestais**. Essa equipe trabalha de forma colaborativa para redigir os livros da série **Floresta*R***.
+O projeto **Floresta*R*** reúne professores, estudantes e profissionais dedicados à redação da série **Floresta*R*** de livros sobre o uso do ***R*** como ferramenta de análise de dados florestais.
 
 ------------------------------------------------------------------------
 
 # Sobre os autores
 
-Os autores dos volumes 1 a 4 da série **Floresta*R*** são:
+Os autores da série de livros **Floresta*R*** são:
 
 -   [**Luiz Carlos Estraviz Rodriguez**]{.ul}, professor titular da Escola Superior de Agricultura Luiz de Queiroz (ESALQ) da Universidade de São Paulo
 -   [**Eric Bastos Gorgens**]{.ul}, professor do Departamento de Engenharia Florestal da Universidade Federal dos Vales do Jequitinhonha e Mucuri (UFVJM)
@@ -58,7 +58,7 @@ A coleção está em constante evolução, e no momento é constituida pelos seg
 -   **Vol_01** Análise exploratória de dados florestais
 -   **Vol_02** Inferência estatística com dados florestais
 -   **Vol_03** Amostragem para fins de inventário florestal
--   **Vol_04** Processamento de dados LiDAR para o monitoramento de florestas
+-   **Vol_04** Processamento de dados LiDAR para monitoramento florestal
 
 ------------------------------------------------------------------------
 
@@ -66,19 +66,13 @@ A coleção está em constante evolução, e no momento é constituida pelos seg
 
 Os dados usados para ilustrar os exemplos estão organizados da seguinte forma:
 
-+-----------+------------------------------------------------------------------------------------------------+
-| Pasta     | Conteúdo                                                                                       |
-+:==========+:===============================================================================================+
-| 1_AMAZON  | Árvores inventariadas na Amazônia                                                              |
-+-----------+------------------------------------------------------------------------------------------------+
-| 2_RESTAU  | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
-+-----------+------------------------------------------------------------------------------------------------+
-| 3_VOLIND  | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
-+-----------+------------------------------------------------------------------------------------------------+
-| 4_INVENT  | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
-+-----------+------------------------------------------------------------------------------------------------+
-| 5_LIDARF  | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
-+-----------+------------------------------------------------------------------------------------------------+
+| Pasta    | Conteúdo                                                                                       |
+|:---------|:-----------------------------------------------------------------------------------------------|
+| 1_AMAZON | Árvores inventariadas na Amazônia                                                              |
+| 2_RESTAU | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
+| 3_VOLIND | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
+| 4_INVENT | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
+| 5_LIDARF | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
 
 ------------------------------------------------------------------------
 
