@@ -1,5 +1,5 @@
 ---
-title: "FlorestaR - dados do estudo de caso AMAZON"
+title: "Dados do estudo de caso AMAZON"
 author: "Luiz C. E. Rodriguez, Eric B. Gorgens, Humberto T. Menecheli Filho, Nathan O. Barreto, João V.L. Marinho, Arthur K. Sanchez, José J. Monteiro"
 description: "Instruções para acessar os dados diretamente do código R usado nos exercícios dos livros da série FlorestaR"
 date: "`r Sys.Date()`"
@@ -31,7 +31,7 @@ klippy::klippy()
 
 ------------------------------------------------------------------------
 
-# O projeto Floresta*R*
+# Floresta*R*
 
 O projeto **Floresta*R*** reúne professores, estudantes e profissionais dedicados à redação da série **Floresta*R*** de livros sobre o uso do ***R*** como ferramenta de análise de dados florestais.
 
@@ -62,21 +62,27 @@ A coleção está em constante evolução, e no momento é constituida pelos seg
 
 ------------------------------------------------------------------------
 
-# Conjunto de dados
+# Conjuntos de dados
 
-Os dados usados para ilustrar os exemplos estão organizados da seguinte forma:
+Os dados dos estudos de caso usados nos exercícios da série de livros **Floresta*R*** estão organizados em pastas:
 
-| Pasta    | Conteúdo                                                                                       |
-|:---------|:-----------------------------------------------------------------------------------------------|
-| 1_AMAZON | Árvores inventariadas na Amazônia                                                              |
-| 2_RESTAU | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
-| 3_VOLIND | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
-| 4_INVENT | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
-| 5_LIDARF | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
++-----------+------------------------------------------------------------------------------------------------+
+| Pasta     | Conteúdo                                                                                       |
++:==========+:===============================================================================================+
+| 1_AMAZON  | Árvores inventariadas na Amazônia                                                              |
++-----------+------------------------------------------------------------------------------------------------+
+| 2_RESTAU  | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
++-----------+------------------------------------------------------------------------------------------------+
+| 3_VOLIND  | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
++-----------+------------------------------------------------------------------------------------------------+
+| 4_INVENT  | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
++-----------+------------------------------------------------------------------------------------------------+
+| 5_LIDARF  | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
++-----------+------------------------------------------------------------------------------------------------+
 
 ------------------------------------------------------------------------
 
-# Acesso aos dados da pasta AMAZON
+# Dados do estudo de caso AMAZON
 
 A pasta `AMAZON` contém as medições de árvores inventariadas em 2010 para fins de manejo florestal. Implantado às margens da BR 364, no município de Porto Velho (RO) em área próxima à divisa com o Acre, o plano se refere à UPA 4 (Unidade de Produção Anual número 4). Todas árvores (*censo 100%*) com mais de 40cm de diâmetro à altura do peito (DAP) nessa área foram identificadas, geolocalizadas, medidas e destinadas para compor um dos seguintes grupos:
 
