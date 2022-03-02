@@ -1,5 +1,7 @@
 # Dados para a série de livros FlorestaR
 
+![Série **Floresta*R***](https://user-images.githubusercontent.com/100598348/156360810-7924a05e-1c64-4ce5-8f7e-13d8357f2e71.png)
+
 Repositório usado para armazenar os dados do projeto *FlorestaR*. Clique no _link_ para mais informações sobre como acessar esses dados diretamente do seu código R.
 
 Os dados estão organizados nas seguintes pastas:
