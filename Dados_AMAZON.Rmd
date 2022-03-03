@@ -8,7 +8,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-rm(list=ls(all=TRUE))                                   # Limpa memória
+rm(list=ls(all=TRUE))                                 # Limpa memória
 gc()
 
 if(!require(klippy))
@@ -21,8 +21,6 @@ if(!require(tidyverse))
   install.packages('tidyverse', dependencies = TRUE)
 if(!require(sf))
   install.packages('sf', dependencies = TRUE)
-if(!require(mapview))
-  install.packages('mapview', dependencies = TRUE)
 ```
 
 ```{r klippy, echo=FALSE, include=TRUE}
@@ -106,19 +104,15 @@ O conteúdo da planilha `Censo_UPA04.csv` pode ser importado para uma *tibble* `
 
 ```{r readCSV, message=FALSE, echo=TRUE}
 library(tidyverse)
-gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON"
+gitOnde <- "https://github.com/FlorestaR/dados/blob/main/1_AMAZON"
 gitNome <- "Censo_UPA04.csv"
 gitArqv <- file.path(gitOnde, gitNome) %>% paste0("?raw=true")
   
-# importação de dados CSV, suprimindo msg sobre colunas
-# uso de locale() garante a leitura correta dos caracteres especiais
-dados <- read_csv(gitArqv,
-                  locale = locale(encoding = "latin1"),
-                  show_col_types = FALSE) %>% tibble()
+dados <- read_csv(gitArqv,                     # importação
+         locale = locale(encoding = "latin1"), # garante acentuação
+         show_col_types = FALSE) %>% tibble()  # desabilita msgs
 
-dados$dia <- dados$dia %>% as.Date("%d/%m/%Y")
-# Atenção para a conversão da data lida no campo dia ("%d/%m/%Y")
-# O resultado é uma tibble com 20.108 linhas e 17 variáveis
+dados$dia <- dados$dia %>% as.Date("%d/%m/%Y") # garante formato date
 ```
 
 `gitOnde` define a pasta dentro do repositório, `gitNome` define o arquivo de dados e `gitArqv` concatena esses dois termos com o sufixo `?raw=true` para criar o devido URL. Em seguida o URL é passado para a função `read_csv()` do pacote **readr** do **tidyverse**.
@@ -131,23 +125,23 @@ Para ler a versão `xlsx` dos mesmos dados, uma alternativa é usar a função `
 
 ```{r readXLSX, message=FALSE, echo=TRUE}
 library(tidyverse)
-gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON"
+gitOnde <- "https://github.com/FlorestaR/dados/blob/main/1_AMAZON"
 gitNome <- "Censo_UPA04.xlsx"
 gitArqv <- file.path(gitOnde, gitNome) %>% paste0("?raw=true")
   
 library(rio)
 
-# importação de dados XLSX
-dados     <- import(file = gitArqv) %>% tibble()
-dados$dia <- dados$dia %>% as.Date()
-# O resultado é uma tibble com 20.108 linhas e 17 variáveis
+dados <- import(file = gitArqv) %>% tibble() # importação
+dados$dia <- dados$dia %>% as.Date()         # garante formato date
 ```
+
+Nesse caso, a acentuação nos caracteres especiais já é importada corretamente, havendo necessidade apenas de garantir que a coluna `dia` registre os valores como `date`.
 
 ### . A *tibble* `dados`
 
 A função `str()` nos permite ver detalhes da estrutura da *tibble* `dados`:
 
-```{r colunas, message=FALSE, echo=TRUE}
+```{r dados, message=FALSE, echo=TRUE}
 str(dados)
 ```
 
@@ -162,36 +156,26 @@ Para download dos `shapes` e leitura da tabela de árvores georeferenciadas, sug
 ```{r readShp, message=FALSE, echo=TRUE}
 library(tidyverse)
 
-gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/"
+gitOnde <- "https://github.com/FlorestaR/dados/blob/main/1_AMAZON/"
 gitNome <- "shapes.zip"
-gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
+gitArqv <- file.path(gitOnde, gitNome) %>% paste0("?raw=true")
 
-# criação de diretório e arquivo zip temporários para receber o zip remoto
-tmpd <- tempdir(check = TRUE)
-zipf <- file.path(tmpd, "shapes.zip")
+tmpd <- tempdir(check = TRUE)                  # diretório temporário
+zipf <- file.path(tmpd, "shapes.zip")            # arquivo temporário
 
-# faz download no mode "wb" para garantir o conteúdo binário
-if(!file.exists(zipf))
-  download.file(gitArqv, mode="wb", destfile = zipf)
+if(!file.exists(zipf))  # garante download de dados binários (wb)
+  download.file(gitArqv, mode="wb", destfile = zipf) 
 
-# descomprime os shapes no diretório temporário
-unzip(zipf, exdir = tmpd)
-
-# apaga o zip de shape
-unlink(zipf)
+unzip(zipf, exdir = tmpd)   # shape é unziped no diretório temporário
+unlink(zipf)                                # deleta o arquivo zipado
 
 library(sf)
 
-# lê a camada (layer) de árvores
-shpArq <- paste0(tmpd, "/shapes/Arvores.shp")
-# data frame sf com os atributos das árvores e respectivo atributos geométricos
-dadosComGeo <- sf::read_sf(shpArq)
+shpArq <- paste0(tmpd, "/shapes/Arvores.shp")     # shape com árvores
+dadosComGeo <- sf::read_sf(shpArq)             # df completo com geom
+dadosSemGeo <- tibble(st_drop_geometry(dadosComGeo))    # df sem geom
 
-# drop a geometria para gerar a tibble de dados das árvores
-dadosSemGeo <- tibble(st_drop_geometry(dadosComGeo))
-
-# Exemplo de tabela com as cinco maiores castanheiras
-dadosSemGeo %>%
+dadosSemGeo %>%                       # Cinco castanheiras mais altas
   filter(nome=="castanheira") %>% 
   select(codARV,sp,codUT,codUCA,dap,altura) %>% 
   arrange(desc(altura)) %>% 
@@ -200,68 +184,46 @@ dadosSemGeo %>%
 
 ```
 
-Para ilustrar a vantagem de usar a versão georeferenciada dos dados, apresenta-se um exemplo que exibe as árvores de `Castanheira` integradas com os limites das UTs e das APPs.
+Para ilustrar a vantagem de usar a versão georeferenciada de `dados`, apresenta-se um exemplo que exibe uma sobreposição das camadas `APP` e `UTs` com as `castanheiras`.
 
 ```{r plotShp, message=FALSE, echo=TRUE}
 library(tidyverse)
 
-gitOnde <- "https://github.com/LuizEstraviz/FlorestaR_dados/blob/main/1_AMAZON/"
+gitOnde <- "https://github.com/FlorestaR/dados/blob/main/1_AMAZON"
 gitNome <- "shapes.zip"
-gitArqv <- paste0(gitOnde, gitNome, "?raw=true")
+gitArqv <- file.path(gitOnde, gitNome) %>% paste0("?raw=true")
 
-# criação de diretório e arquivo zip temporários para receber o zip remoto
-tmpd <- tempdir(check = TRUE)
-zipf <- file.path(tmpd, "shapes.zip")
+tmpd <- tempdir(check = TRUE)                  # diretório temporário
+zipf <- file.path(tmpd, "shapes.zip")            # arquivo temporário
 
-# faz download no mode "wb" para garantir o conteúdo binário
-if(!file.exists(zipf))
-  download.file(gitArqv, mode="wb", destfile = zipf)
+if(!file.exists(zipf))      # garante download de dados binários (wb)
+  download.file(gitArqv, mode="wb", destfile = zipf) 
 
-# descomprime os shapes no diretório temporário
-unzip(zipf, exdir = tmpd)
-
-# apaga o zip de shape
-unlink(zipf)
+unzip(zipf, exdir = tmpd)   # shape é unziped no diretório temporário
+unlink(zipf)                                # deleta o arquivo zipado
 
 library(sf)
 
-# leitura dos shapes disponíveis
-shpArq <- paste0(tmpd, "/shapes/Arvores.shp")
-dadosArv <- sf::read_sf(shpArq)
+# leitura das camadas 
+dadosArv <- paste0(tmpd, "/shapes/Arvores.shp")     %>% read_sf()
+dadosUca <- paste0(tmpd, "/shapes/UCAs.shp")        %>% read_sf()
+dadosUts <- paste0(tmpd, "/shapes/UTs.shp")         %>% read_sf()
+dadosApp <- paste0(tmpd, "/shapes/APP.shp")         %>% read_sf()
+dadosHid <- paste0(tmpd, "/shapes/Hidrografia.shp") %>% read_sf()
+dadosEst <- paste0(tmpd, "/shapes/Estrada.shp")     %>% read_sf()
+dadosRam <- paste0(tmpd, "/shapes/Ramal.shp")       %>% read_sf()
+dadosPat <- paste0(tmpd, "/shapes/Patios.shp")      %>% read_sf()
 
-shpArq <- paste0(tmpd, "/shapes/UCAs.shp")
-dadosUca <- sf::read_sf(shpArq)
-
-shpArq <- paste0(tmpd, "/shapes/UTs.shp")
-dadosUts <- sf::read_sf(shpArq)
-
-shpArq <- paste0(tmpd, "/shapes/APP.shp")
-dadosApp <- sf::read_sf(shpArq)
-
-shpArq <- paste0(tmpd, "/shapes/Hidrografia.shp")
-dadosHid <- sf::read_sf(shpArq)
-
-shpArq <- paste0(tmpd, "/shapes/Estrada.shp")
-dadosEst <- sf::read_sf(shpArq)
-
-shpArq <- paste0(tmpd, "/shapes/Ramal.shp")
-dadosRam <- sf::read_sf(shpArq)
-
-shpArq <- paste0(tmpd, "/shapes/Patios.shp")
-dadosRam <- sf::read_sf(shpArq)
-
-# novo objeto sf contendo apenas as árvores de interesse e quatro atributos
-Especie <- dadosArv %>%
+Especie <- dadosArv %>%                # novo df só com castanheiras
   filter(nome=="castanheira") %>% 
   select(codARV,altura,dap,volume) 
 
-# plota mapa de UTs, APPs e árvores selecionadas coloridas por altura
-ggplot() + 
+ggplot() +      # plot das UTs, APPs e castanheiras (col por altura)
   geom_sf(data = dadosUts, colour = "red", fill=NA) +
   geom_sf(data = dadosApp, colour = "lightblue") +
   geom_sf(data = Especie, aes(colour = altura), size = 1) +
   scale_color_distiller(palette = "Greens", trans = "reverse") + 
-  coord_sf(datum=st_crs(29190)) +     # Sistema de coordenadas dos dados
+  coord_sf(datum=st_crs(29190)) +     # Especifica sistema de coord.
   scale_x_continuous(breaks = seq(from = 218500, to = 223000, by = 1000))
 
 ```
