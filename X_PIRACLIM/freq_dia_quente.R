@@ -21,7 +21,7 @@ df <- df[-c(1),]
 head(df)
 
 #limpando dados (colunas)
-df = subset(df, select = -c(Estiagem,URMED, VentoMED, TMAX,
+df = subset(df, select = -c(Estiagem,URMED, VentoMED, TMED,
                             TMAX_hora, URMAX, URMAX_hora,
                             VentoMAX, VentoMAX_hora, TMIN,
                             TMIN_hora, URMIN, URMIN_hora,
@@ -29,4 +29,12 @@ df = subset(df, select = -c(Estiagem,URMED, VentoMED, TMAX,
 #limpando dados (linhas)
 df = df[-c(1:35454),]
 
-   
+#transformando os dados TMAX em numéricos
+df$TMAX = as.numeric(df$TMAX)
+t_max = df$TMAX
+
+#Contnstrução do Histograma para a coluna TMAX
+hist(t_max)
+
+#Organizar os dados nas temperaturas selecionadas
+
