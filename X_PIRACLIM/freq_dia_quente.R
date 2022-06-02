@@ -34,15 +34,18 @@ str(df)
 df$TMAX = as.numeric(df$TMAX)
 
 t_max = df$TMAX
-hist(t_max)
 mean(t_max)
+
+#hist(t_max, breaks= (0,28,30,32,34,36,36,50), freq=T)
 
 hist (t_max, 
       main = "Temperaturas 2000-2022 - Piracicaba-SP", 
-     # xlab = "Temperaturas", ylab = "Freq. Absoluta", 
-      col = "purple3", 
-      breaks = c(10,28, 30, 32, 34, 36), 
-      right = FALSE, 
-      labels = TRUE,
-      ylim = c(20,11), ##definimos um novo limite para y para subir a posição do título
-      xlim = c(22,32)) ##colocamos "xlim = " para que o histograma fique sobre o eixo de x
+      xlab = "Temperaturas", ylab = "Frequ�ncia", 
+      col = "grey",
+      border = "black",
+      freq =F,
+      breaks = c(0,10,15,28, 30, 32, 34,36,42), 
+      right = T, 
+      labels = F)
+     
+
