@@ -29,4 +29,4 @@ df = subset(df, select = -c(Estiagem,URMED, VentoMED, TMAX,
 #limpando dados (linhas)
 df = df[-c(1:35454),]
 
-
+   
