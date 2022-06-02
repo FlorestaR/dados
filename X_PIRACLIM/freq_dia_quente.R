@@ -21,7 +21,7 @@ df <- df[-c(1),]
 head(df)
 
 #limpando dados (colunas)
-df = subset(df, select = -c(Estiagem,URMED, VentoMED, TMAX,
+df = subset(df, select = -c(Estiagem,URMED, VentoMED, TMED,
                             TMAX_hora, URMAX, URMAX_hora,
                             VentoMAX, VentoMAX_hora, TMIN,
                             TMIN_hora, URMIN, URMIN_hora,
@@ -29,4 +29,20 @@ df = subset(df, select = -c(Estiagem,URMED, VentoMED, TMAX,
 #limpando dados (linhas)
 df = df[-c(1:35454),]
 
-   
+#convertendo tmax para numeric
+str(df)
+df$TMAX = as.numeric(df$TMAX)
+
+t_max = df$TMAX
+hist(t_max)
+mean(t_max)
+
+hist (t_max, 
+      main = "Temperaturas 2000-2022 - Piracicaba-SP", 
+     # xlab = "Temperaturas", ylab = "Freq. Absoluta", 
+      col = "purple3", 
+      breaks = c(10,28, 30, 32, 34, 36), 
+      right = FALSE, 
+      labels = TRUE,
+      ylim = c(20,11), ##definimos um novo limite para y para subir a posição do título
+      xlim = c(22,32)) ##colocamos "xlim = " para que o histograma fique sobre o eixo de x
