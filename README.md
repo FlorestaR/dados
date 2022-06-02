@@ -7,7 +7,7 @@ Repositório usado para armazenar os dados do projeto *FlorestaR*. Clique no _li
 Os dados estão organizados nas seguintes pastas:
 
 | Pasta | Conteúdo |
-|:------------:|:-------------|
+|:-------------|:-------------|
 | 1_AMAZON  | Árvores inventariadas na Amazônia ([link](https://luizestraviz.com/FlorestaR/Dados_AMAZON.html)) |
 | 2_RESTAU  | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
 | 3_VOLIND  | Árvores de *Eucalytus* cubadas para modelagem de volume individual |
