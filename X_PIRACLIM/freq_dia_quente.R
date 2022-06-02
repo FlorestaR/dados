@@ -29,12 +29,8 @@ df = subset(df, select = -c(Estiagem,URMED, VentoMED, TMED,
 #limpando dados (linhas)
 df = df[-c(1:35454),]
 
-#transformando os dados TMAX em numéricos
-df$TMAX = as.numeric(df$TMAX)
-t_max = df$TMAX
+df
 
-#Contnstrução do Histograma para a coluna TMAX
-hist(t_max)
 
-#Organizar os dados nas temperaturas selecionadas
+
 
