@@ -36,7 +36,7 @@ df = filter(df,df$ANO>=2000, df$TMAX >=28)
 df$TMAX = as.numeric(df$TMAX)
 t_max = df$TMAX
 
-#definindo os valores para mudança das classes no histograma
+#definindo os valores para mudança das classes de temperatura no histograma
 brk = c(28,30,32,34,36,41.5)
 
 #Histograma
