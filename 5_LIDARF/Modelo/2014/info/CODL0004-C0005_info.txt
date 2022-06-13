@@ -1,0 +1,57 @@
+lasinfo (210720) report for 'C:/LiDAR/Modelo/2014/CODL0004-C0005.laz'
+reporting all LAS header entries:
+  file signature:             'LASF'
+  file source ID:             0
+  global_encoding:            0
+  project ID GUID data 1-4:   00000000-0000-0000-0000-000000000000
+  version major.minor:        1.1
+  system identifier:          'LAStools (c) by rapidlasso GmbH'
+  generating software:        'lasthin (210720) academic'
+  file creation day/year:     238/2014
+  header size:                227
+  offset to point data:       321
+  number var. length records: 1
+  point data format:          0
+  point data record length:   20
+  number of point records:    14755893
+  number of points by return: 10666156 3644806 431195 13458 275
+  scale factor x y z:         0.01 0.01 0.01
+  offset x y z:               200000 7300000 0
+  min x y z:                  206049.77 7358260.11 679.48
+  max x y z:                  207049.77 7359260.11 758.68
+variable length header record 1 of 1:
+  reserved             0
+  user ID              'LASF_Projection'
+  record ID            34735
+  length after header  40
+  description          'by LAStools of rapidlasso GmbH'
+    GeoKeyDirectoryTag version 1.1.0 number of keys 4
+      key 1024 tiff_tag_location 0 count 1 value_offset 1 - GTModelTypeGeoKey: ModelTypeProjected
+      key 3072 tiff_tag_location 0 count 1 value_offset 31983 - ProjectedCSTypeGeoKey: SIRGAS 2000 / UTM zone 23S
+      key 3076 tiff_tag_location 0 count 1 value_offset 9001 - ProjLinearUnitsGeoKey: Linear_Meter
+      key 4099 tiff_tag_location 0 count 1 value_offset 9001 - VerticalUnitsGeoKey: Linear_Meter
+LASzip compression (version 3.4r3 c2 50000): POINT10 2
+reporting minimum and maximum for all LAS point record entries ...
+  X              604977     704977
+  Y             5826011    5926011
+  Z               67948      75868
+  intensity          17       7951
+  return_number       1          6
+  number_of_returns   1          6
+  edge_of_flight_line 0          0
+  scan_direction_flag 0          0
+  classification      0          0
+  scan_angle_rank   -21         24
+  user_data           0          0
+  point_source_ID    13         31
+number of first returns:        10666156
+number of intermediate returns: 213872
+number of last returns:         11455749
+number of single returns:       7579884
+covered area in square meters/kilometers: 972404/0.97
+point density: all returns 15.17 last only 11.78 (per square meter)
+      spacing: all returns 0.26 last only 0.29 (in meters)
+WARNING: there are 3 points with return number 6
+overview over number of returns of given pulse: 7579884 6193648 950737 31066 555 3 0
+histogram of classification of points:
+        14755893  never classified (0)
