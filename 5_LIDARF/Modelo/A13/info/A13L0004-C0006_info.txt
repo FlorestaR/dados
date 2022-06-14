@@ -1,24 +1,24 @@
-lasinfo (210720) report for 'C:/LiDAR/Modelo/2014/CODL0004-C0006.laz'
+lasinfo (210720) report for 'C:/LiDAR/Modelo/A13/A13L0004-C0006.laz'
 reporting all LAS header entries:
   file signature:             'LASF'
   file source ID:             0
   global_encoding:            0
   project ID GUID data 1-4:   00000000-0000-0000-0000-000000000000
-  version major.minor:        1.1
+  version major.minor:        1.2
   system identifier:          'LAStools (c) by rapidlasso GmbH'
   generating software:        'lasthin (210720) academic'
-  file creation day/year:     238/2014
+  file creation day/year:     350/2013
   header size:                227
   offset to point data:       321
   number var. length records: 1
   point data format:          0
   point data record length:   20
-  number of point records:    12952813
-  number of points by return: 11259630 1510302 174188 8495 198
+  number of point records:    12152440
+  number of points by return: 10959575 1106140 84694 2010 21
   scale factor x y z:         0.01 0.01 0.01
   offset x y z:               200000 7300000 0
-  min x y z:                  207049.77 7358260.11 669.02
-  max x y z:                  208049.77 7359260.11 740.57
+  min x y z:                  207050.00 7358260.00 668.80
+  max x y z:                  208050.00 7359260.00 738.89
 variable length header record 1 of 1:
   reserved             0
   user ID              'LASF_Projection'
@@ -32,25 +32,25 @@ variable length header record 1 of 1:
       key 4099 tiff_tag_location 0 count 1 value_offset 9001 - VerticalUnitsGeoKey: Linear_Meter
 LASzip compression (version 3.4r3 c2 50000): POINT10 2
 reporting minimum and maximum for all LAS point record entries ...
-  X              704977     804977
-  Y             5826011    5926011
-  Z               66902      74057
-  intensity          20      62614
+  X              705000     805000
+  Y             5826000    5926000
+  Z               66880      73889
+  intensity          18       5059
   return_number       1          5
-  number_of_returns   1          6
+  number_of_returns   1          5
   edge_of_flight_line 0          0
   scan_direction_flag 0          0
   classification      0          0
   scan_angle_rank   -21         24
   user_data           0          0
   point_source_ID    13         20
-number of first returns:        11259630
-number of intermediate returns: 127338
-number of last returns:         11478318
-number of single returns:       9912473
-covered area in square meters/kilometers: 881680/0.88
-point density: all returns 14.69 last only 13.02 (per square meter)
-      spacing: all returns 0.26 last only 0.28 (in meters)
-overview over number of returns of given pulse: 9912473 2579982 432026 27616 714 2 0
+number of first returns:        10959575
+number of intermediate returns: 56684
+number of last returns:         11143649
+number of single returns:       10007468
+covered area in square meters/kilometers: 879620/0.88
+point density: all returns 13.82 last only 12.67 (per square meter)
+      spacing: all returns 0.27 last only 0.28 (in meters)
+overview over number of returns of given pulse: 10007468 1929103 209373 6421 75 0 0
 histogram of classification of points:
-        12952813  never classified (0)
+        12152440  never classified (0)

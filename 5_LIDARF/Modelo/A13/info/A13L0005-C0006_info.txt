@@ -1,4 +1,4 @@
-lasinfo (210720) report for 'C:/LiDAR/Modelo/2013/CODL0005-C0006.laz'
+lasinfo (210720) report for 'C:/LiDAR/Modelo/A13/A13L0005-C0006.laz'
 reporting all LAS header entries:
   file signature:             'LASF'
   file source ID:             0
