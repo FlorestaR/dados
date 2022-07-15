@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
 <Document id="root_doc">
-<Schema name="Talhões" id="Talhões">
+<Schema name="fazmodelo" id="fazmodelo">
 	<SimpleField name="OBJECTID" type="float"></SimpleField>
 	<SimpleField name="FAZENDA" type="string"></SimpleField>
 	<SimpleField name="TALHAO" type="int"></SimpleField>
 	<SimpleField name="SUBTALHAO" type="string"></SimpleField>
 	<SimpleField name="AREA" type="float"></SimpleField>
 </Schema>
-<Folder><name>Talhões</name>
+<Folder><name>fazmodelo</name>
   <Placemark>
 	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
-	<ExtendedData><SchemaData schemaUrl="#Talhões">
+	<ExtendedData><SchemaData schemaUrl="#fazmodelo">
 		<SimpleData name="OBJECTID">67379</SimpleData>
 		<SimpleData name="FAZENDA">A</SimpleData>
 		<SimpleData name="TALHAO">302</SimpleData>
@@ -22,7 +22,7 @@
   </Placemark>
   <Placemark>
 	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
-	<ExtendedData><SchemaData schemaUrl="#Talhões">
+	<ExtendedData><SchemaData schemaUrl="#fazmodelo">
 		<SimpleData name="OBJECTID">67379</SimpleData>
 		<SimpleData name="FAZENDA">A</SimpleData>
 		<SimpleData name="TALHAO">302</SimpleData>
@@ -33,7 +33,7 @@
   </Placemark>
   <Placemark>
 	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
-	<ExtendedData><SchemaData schemaUrl="#Talhões">
+	<ExtendedData><SchemaData schemaUrl="#fazmodelo">
 		<SimpleData name="OBJECTID">67381</SimpleData>
 		<SimpleData name="FAZENDA">A</SimpleData>
 		<SimpleData name="TALHAO">301</SimpleData>
@@ -44,7 +44,7 @@
   </Placemark>
   <Placemark>
 	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
-	<ExtendedData><SchemaData schemaUrl="#Talhões">
+	<ExtendedData><SchemaData schemaUrl="#fazmodelo">
 		<SimpleData name="OBJECTID">67381</SimpleData>
 		<SimpleData name="FAZENDA">A</SimpleData>
 		<SimpleData name="TALHAO">301</SimpleData>
