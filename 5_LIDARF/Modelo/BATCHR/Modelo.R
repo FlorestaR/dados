@@ -43,7 +43,7 @@ library(kableExtra)
 # Download do shape da Fazenda Modelo (2 layers: talhoes e parcelas)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 gitOnde <- "https://github.com/FlorestaR/dados/blob/main/5_LIDARF/Modelo/SHAPES"
-gitNome <- "shapes.zip"
+gitNome <- "fazmodelo.zip"
 gitArqv <- file.path(gitOnde, gitNome) %>% paste0("?raw=true")
 
 tmpd <- tempdir(check = TRUE)                    # diretório temporário
