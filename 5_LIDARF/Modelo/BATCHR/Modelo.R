@@ -304,13 +304,13 @@ dev.off()
 # Leitura de dados LidAR
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Define os nomes dos tiles LiDAR multitemporais que serão lidos do
-# repositório, os respectivos anos e o URL completo do github
+# Define os nomes dos tiles LiDAR multitemporais normalizados que serão
+# lidos do repositório, os respectivos anos e o URL completo do github
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 gitOnde <-"https://github.com/FlorestaR/dados/blob/main/5_LIDARF/Modelo/CLOUDS/"
-gitNome <-c("L0004-C0005.laz", "L0004-C0006.laz",
-            "L0005-C0005.laz", "L0005-C0006.laz",
-            "L0006-C0005.laz", "L0006-C0006.laz")
+gitNome <-c("L0004-C0005_gcn.laz", "L0004-C0006_gcn.laz",
+            "L0005-C0005_gcn.laz", "L0005-C0006_gcn.laz",
+            "L0006-C0005_gcn.laz", "L0006-C0006_gcn.laz")
 anoData <- c("A13", "A14")
 
 # Cria diretórios e pastas para onde os tiles LiDAR serão copiados
