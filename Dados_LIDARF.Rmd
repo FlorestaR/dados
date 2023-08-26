@@ -1,0 +1,221 @@
+---
+title: "Dados do estudo de caso LIDARF"
+author: "Luiz C. E. Rodriguez, Eric B. Gorgens, Humberto T. Menecheli Filho, Nathan O. Barreto, José J. Monteiro"
+description: "Acesso aos dados mantidos em repositório github, diretamente via código R, para estudo dos exercícios ilustrados nos livros da série FlorestaR"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+rm(list=ls(all=TRUE))                                 # Limpa memória
+gc()
+
+if(!require(klippy))
+  remotes::install_github("rlesur/klippy")
+library(klippy)
+
+if(!require(rio))
+  install.packages('rio', dependencies = TRUE)
+if(!require(tidyverse))
+  install.packages('tidyverse', dependencies = TRUE)
+if(!require(sf))
+  install.packages('sf', dependencies = TRUE)
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy()
+```
+
+------------------------------------------------------------------------
+
+# Floresta*R*
+
+O projeto **Floresta*R*** reúne professores, estudantes e profissionais dedicados à redação da série **Floresta*R*** de livros sobre o uso do ***R*** como ferramenta de análise de dados florestais.
+
+------------------------------------------------------------------------
+
+# Sobre os autores
+
+Os autores da série de livros **Floresta*R*** são:
+
+-   [**Luiz Carlos Estraviz Rodriguez**]{.ul}, professor titular da Escola Superior de Agricultura Luiz de Queiroz (ESALQ) da Universidade de São Paulo
+-   [**Eric Bastos Gorgens**]{.ul}, professor do Departamento de Engenharia Florestal da Universidade Federal dos Vales do Jequitinhonha e Mucuri (UFVJM)
+-   [**Humberto Tadeu Menecheli Filho**]{.ul}, engenheiro florestal analista de dados da ForLiDAR
+-   [**Nathan de Oiveira Barreto**]{.ul}, graduando de engenharia florestal da ESALQ/USP
+-   [**José Jorge Monteiro Junior**]{.ul}, engenheiro florestal mestrando do programa de pós-graduação em Recursos Florestais da ESALQ/USP
+
+------------------------------------------------------------------------
+
+# Sobre os livros
+
+A coleção está em constante evolução, e no momento é constituida pelos seguintes volumes:
+
+-   **Vol_01** Análise exploratória de dados florestais
+-   **Vol_02** Inferência estatística com dados florestais
+-   **Vol_03** Amostragem para fins de inventário florestal
+-   **Vol_04** Processamento de dados LiDAR para monitoramento florestal
+
+------------------------------------------------------------------------
+
+# Conjuntos de dados
+
+Os dados dos estudos de caso usados nos exercícios da série de livros **Floresta*R*** estão organizados em pastas:
+
++-----------+------------------------------------------------------------------------------------------------+
+| Pasta     | Conteúdo                                                                                       |
++:==========+:===============================================================================================+
+| 1_AMAZON  | Árvores inventariadas na Amazônia                                                              |
++-----------+------------------------------------------------------------------------------------------------+
+| 2_RESTAU  | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
++-----------+------------------------------------------------------------------------------------------------+
+| 3_VOLIND  | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
++-----------+------------------------------------------------------------------------------------------------+
+| 4_INVENT  | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
++-----------+------------------------------------------------------------------------------------------------+
+| 5_LIDARF  | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
++-----------+------------------------------------------------------------------------------------------------+
+
+------------------------------------------------------------------------
+
+# Dados do estudo de caso LIDARF
+
+A pasta `LIDARF` contém shape files e nuvens de dados LiDAR. Os shape files georeferenciam os talhões de eucaliptos da hipotética -- ainda que real ;-) -- Fazenda Modelo; as parcelas de inventário medidas nessa fazenda em 2013; e as respectivas tabelas de atributos com os dados cadastrais básicos dos talhões e das medições realizadas nas parcelas. As nuvens de dados LiDAR estão organizadas em duas pastas, uma com os //tiles// sobrevoados em 2013, e outra em 2014.
+
+O acesso aos dados desse repositório é público para maximizar a acessibilidade e permitir a reprodutibilidade dos exemplos publicados nos livros da série **Floresta*R***. Os dados mantidos nas tabelas de atributos estão estruturados segundo princípios [tidy](https://r4ds.had.co.nz/tidy-data.html){target="_blank"} e [shape](https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf){target="_blank"} para facilitar o uso das funções dos pacotes **tidyverse** e **sf** do ***R***.
+
+### . Formato `CSV`
+
+O conteúdo da planilha `Censo_UPA04.csv` pode ser importado para uma *tibble* `dados`, da seguinte forma:
+
+```{r readCSV, message=FALSE, echo=TRUE}
+library(tidyverse)
+gitOnde <- "https://github.com/FlorestaR/dados/blob/main/1_AMAZON"
+gitNome <- "Censo_UPA04.csv"
+gitArqv <- file.path(gitOnde, gitNome) %>% paste0("?raw=true")
+  
+dados <- read_csv(gitArqv,                     # importação
+         locale = locale(encoding = "latin1"), # garante acentuação
+         show_col_types = FALSE) %>% tibble()  # desabilita msgs
+
+dados$dia <- dados$dia %>% as.Date("%d/%m/%Y") # garante formato date
+```
+
+`gitOnde` define a pasta dentro do repositório, `gitNome` define o arquivo de dados e `gitArqv` concatena esses dois termos com o sufixo `?raw=true` para criar o devido URL. Em seguida o URL é passado para a função `read_csv()` do pacote **readr** do **tidyverse**.
+
+A função `read_csv()` do pacote **readr** permite que um usuário R conectado à internet leia diretamente os dados mantidos em repositórios [github](https://github.com).
+
+### . Formato `XLSX`
+
+Para ler a versão `xlsx` dos mesmos dados, uma alternativa é usar a função `import()` do pacote **rio**:
+
+```{r readXLSX, message=FALSE, echo=TRUE}
+library(tidyverse)
+gitOnde <- "https://github.com/FlorestaR/dados/blob/main/1_AMAZON"
+gitNome <- "Censo_UPA04.xlsx"
+gitArqv <- file.path(gitOnde, gitNome) %>% paste0("?raw=true")
+  
+library(rio)
+
+dados <- import(file = gitArqv) %>% tibble() # importação
+dados$dia <- dados$dia %>% as.Date()         # garante formato date
+```
+
+Nesse caso, a acentuação nos caracteres especiais já é importada corretamente, havendo necessidade apenas de garantir que a coluna `dia` registre os valores como `date`.
+
+### . A *tibble* `dados`
+
+A função `str()` nos permite ver detalhes da estrutura da *tibble* `dados`:
+
+```{r dados, message=FALSE, echo=TRUE}
+str(dados)
+```
+
+### . Formato *`shape`*
+
+Os dados diponibilizados nos formatos `CSV` e `XLSX` se encontram também disponíveis na tabela de atributos do `shape` `Arvores`, com a localização geográfica de cada árvore. O *download* desse, e de outros `shapes` complementares, premite reproduzir os exercícios de exploração de dados espacializados.
+
+Os exercícios com as árvores georeferenciadas usam funções do pacote **sf** do **R**. A função `read_sf()` desse pacote permite ler camadas vetoriais (*layers*) de informação SIG armazenadas no formato `shape`.
+
+Para download dos `shapes` e leitura da tabela de árvores georeferenciadas, sugere-se o seguinte procedimento:
+
+```{r readShp, message=FALSE, echo=TRUE}
+library(tidyverse)
+
+gitOnde <- "https://github.com/FlorestaR/dados/blob/main/1_AMAZON/"
+gitNome <- "shapes.zip"
+gitArqv <- file.path(gitOnde, gitNome) %>% paste0("?raw=true")
+
+tmpd <- tempdir(check = TRUE)                  # diretório temporário
+zipf <- file.path(tmpd, "shapes.zip")            # arquivo temporário
+
+if(!file.exists(zipf))  # garante download de dados binários (wb)
+  download.file(gitArqv, mode="wb", destfile = zipf) 
+
+unzip(zipf, exdir = tmpd)   # shape é unziped no diretório temporário
+unlink(zipf)                                # deleta o arquivo zipado
+
+library(sf)
+
+shpArq <- paste0(tmpd, "/shapes/Arvores.shp")     # shape com árvores
+dadosComGeo <- sf::read_sf(shpArq)             # df completo com geom
+dadosSemGeo <- tibble(st_drop_geometry(dadosComGeo))    # df sem geom
+
+dadosSemGeo %>%                       # Cinco castanheiras mais altas
+  filter(nome=="castanheira") %>% 
+  select(codARV,sp,codUT,codUCA,dap,altura) %>% 
+  arrange(desc(altura)) %>% 
+  head(5) %>% 
+  knitr::kable(caption = "Lista das 5 maiores castanheiras")
+
+```
+
+Para ilustrar a vantagem de usar a versão georeferenciada de `dados`, apresenta-se um exemplo que exibe uma sobreposição das camadas `APP` e `UTs` com as `castanheiras`.
+
+```{r plotShp, message=FALSE, echo=TRUE}
+library(tidyverse)
+
+gitOnde <- "https://github.com/FlorestaR/dados/blob/main/1_AMAZON"
+gitNome <- "shapes.zip"
+gitArqv <- file.path(gitOnde, gitNome) %>% paste0("?raw=true")
+
+tmpd <- tempdir(check = TRUE)                  # diretório temporário
+zipf <- file.path(tmpd, "shapes.zip")            # arquivo temporário
+
+if(!file.exists(zipf))      # garante download de dados binários (wb)
+  download.file(gitArqv, mode="wb", destfile = zipf) 
+
+unzip(zipf, exdir = tmpd)   # shape é unziped no diretório temporário
+unlink(zipf)                                # deleta o arquivo zipado
+
+library(sf)
+
+# leitura das camadas 
+dadosArv <- paste0(tmpd, "/shapes/Arvores.shp")     %>% read_sf()
+dadosUca <- paste0(tmpd, "/shapes/UCAs.shp")        %>% read_sf()
+dadosUts <- paste0(tmpd, "/shapes/UTs.shp")         %>% read_sf()
+dadosApp <- paste0(tmpd, "/shapes/APP.shp")         %>% read_sf()
+dadosHid <- paste0(tmpd, "/shapes/Hidrografia.shp") %>% read_sf()
+dadosEst <- paste0(tmpd, "/shapes/Estrada.shp")     %>% read_sf()
+dadosRam <- paste0(tmpd, "/shapes/Ramal.shp")       %>% read_sf()
+dadosPat <- paste0(tmpd, "/shapes/Patios.shp")      %>% read_sf()
+
+Especie <- dadosArv %>%                # novo df só com castanheiras
+  filter(nome=="castanheira") %>% 
+  select(codARV,altura,dap,volume) 
+
+ggplot() +      # plot das UTs, APPs e castanheiras (col por altura)
+  geom_sf(data = dadosUts, colour = "red", fill=NA) +
+  geom_sf(data = dadosApp, colour = "lightblue") +
+  geom_sf(data = Especie, aes(colour = altura), size = 1) +
+  scale_color_distiller(palette = "Greens", trans = "reverse") + 
+  coord_sf(datum=st_crs(29190)) +     # Especifica sistema de coord.
+  scale_x_continuous(breaks = seq(from = 218500, to = 223000, by = 1000))
+
+```
+
+------------------------------------------------------------------------
+
+Caso encontre alguma inconsistência nas informações deste repositório, ou queira registrar um comentário, clique em [`issues`](https://github.com/LuizEstraviz/FlorestaR_dados/issues) no menu do repositório [github.com/LuizEstraviz/FlorestaR_dados](https://github.com/LuizEstraviz/FlorestaR_dados) e deixe a sua contribuição clicando no botão `New issue`. Agradecemos o seu interesse por esta iniciativa.
+
+Disclaimer: Os dados são disponibilizados para fins exclusivamente educativos e não devem ser usados para outro propósito. O uso fora do contexto para o qual estão sendo disponibilizados, mesmo que apenas parcialmente, além de indevido, produzirá resultados impróprios, pois alguns dos atributos originais desses dados foram propositalmente modificados para simplificar a realidade. Os autores não se responsabilizam pelo uso indevido que, além de infringir códigos científicos e éticos de conduta, extrapole o caráter ilustrativo dos exercícios que apresentamos na série de livros **Floresta*R***.
