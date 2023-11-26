@@ -1,6 +1,6 @@
 ---
 title: "Dados do estudo de caso AMAZON"
-author: "Luiz C. E. Rodriguez, Eric B. Gorgens, Humberto T. Menecheli Filho, Nathan O. Barreto, João V.L. Marinho, Arthur K. Sanchez, José J. Monteiro"
+author: "Luiz C. E. Rodriguez, Eric B. Gorgens, Humberto T. Menecheli Filho, Nathan O. Barreto"
 description: "Instruções para acessar os dados diretamente do código R usado nos exercícios dos livros da série FlorestaR"
 date: "`r Sys.Date()`"
 output: html_document
@@ -39,13 +39,10 @@ O projeto **Floresta*R*** reúne professores, estudantes e profissionais dedicad
 
 Os autores da série de livros **Floresta*R*** são:
 
--   [**Luiz Carlos Estraviz Rodriguez**]{.ul}, professor titular da Escola Superior de Agricultura Luiz de Queiroz (ESALQ) da Universidade de São Paulo
--   [**Eric Bastos Gorgens**]{.ul}, professor do Departamento de Engenharia Florestal da Universidade Federal dos Vales do Jequitinhonha e Mucuri (UFVJM)
--   [**Humberto Tadeu Menecheli Filho**]{.ul}, engenheiro florestal analista de dados da ForLiDAR
--   [**Nathan de Oiveira Barreto**]{.ul}, graduando de engenharia florestal da ESALQ/USP
--   [**João Victor Lopes Marinho**]{.ul}, graduando de engenharia florestal da ESALQ/USP
--   [**Arthur Kaufmann Sanchez**]{.ul}, graduando de engenharia florestal da ESALQ/USP
--   [**José Jorge Monteiro Junior**]{.ul}, engenheiro florestal mestrando do programa de pós-graduação em Recursos Florestais da ESALQ/USP
+-   [**Luiz Carlos Estraviz Rodriguez**]{.underline}, professor titular da Escola Superior de Agricultura Luiz de Queiroz (ESALQ) da Universidade de São Paulo
+-   [**Eric Bastos Gorgens**]{.underline}, professor do Departamento de Engenharia Florestal da Universidade Federal dos Vales do Jequitinhonha e Mucuri (UFVJM)
+-   [**Humberto Tadeu Menecheli Filho**]{.underline}, engenheiro florestal analista de dados da ForLiDAR
+-   [**Nathan de Oiveira Barreto**]{.underline}, graduando de engenharia florestal da ESALQ/USP
 
 ------------------------------------------------------------------------
 
@@ -64,19 +61,13 @@ A coleção está em constante evolução, e no momento é constituida pelos seg
 
 Os dados dos estudos de caso usados nos exercícios da série de livros **Floresta*R*** estão organizados em pastas:
 
-+-----------+------------------------------------------------------------------------------------------------+
-| Pasta     | Conteúdo                                                                                       |
-+:==========+:===============================================================================================+
-| 1_AMAZON  | Árvores inventariadas na Amazônia                                                              |
-+-----------+------------------------------------------------------------------------------------------------+
-| 2_RESTAU  | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
-+-----------+------------------------------------------------------------------------------------------------+
-| 3_VOLIND  | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
-+-----------+------------------------------------------------------------------------------------------------+
-| 4_INVENT  | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
-+-----------+------------------------------------------------------------------------------------------------+
-| 5_LIDARF  | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
-+-----------+------------------------------------------------------------------------------------------------+
+| Pasta    | Conteúdo                                                                                       |
+|:---------|:-----------------------------------------------------------------------------------------------|
+| 1_AMAZON | Árvores inventariadas na Amazônia                                                              |
+| 2_RESTAU | Medições de árvores de espécies nativas coletadas em área de restauração de corredor ecológico |
+| 3_VOLIND | Árvores de *Eucalytus* cubadas para modelagem de volume individual                             |
+| 4_INVENT | Medições de árvores de *Eucalyptus* em parcelas de inventário convencional                     |
+| 5_LIDARF | Nuvens de pontos LiDAR sobre plantio florestal para mapeamento de biomassa                     |
 
 ------------------------------------------------------------------------
 

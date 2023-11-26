@@ -1,0 +1,10 @@
+####################################################
+#Descricao dos dados de inventário das áreas do
+#projeto piloto da Fibria unidade Jacarei em um
+#total de nove fazendas
+###################################################
+As base enviadas constituem de 6 arquivos sendo 2 arquivos para cada nivel avaliado (arvore, parcela, plantio)
+1 primeiro arquivo com todas medicoes (df[nivel]_all_medicoes.xls) e um segundo arquivo com a ultima medicao 
+(df[nivel]_last_medicoes.xls).
+Os campos das tabelas sao autoexplicativos em que inicialmente sao trazidas algumas informacoes cadastrais e posterior-
+mente as informacoes das principais variaveis coletadas em cada nível
