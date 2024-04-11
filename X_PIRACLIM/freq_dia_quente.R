@@ -14,6 +14,7 @@ df <- import(file = gitFile) %>% tibble() # importação
 
 # Renomeia as colunas com o conteúdo da segunda linha df[1,]
 colnames(df) <- df[1,]
+
 # Deleta a segunda linha
 df <- df[-c(1),]
 
@@ -26,26 +27,28 @@ df = subset(df, select = -c(Estiagem,URMED, VentoMED, TMED,
                             VentoMAX, VentoMAX_hora, TMIN,
                             TMIN_hora, URMIN, URMIN_hora,
                             Chuva,Rad.Glob.) )
+
 #limpando dados (linhas)
-df = df[-c(1:35454),]
+df = filter(df,df$ANO>=2000, df$TMAX >=28)
+
 
 #convertendo tmax para numeric
-str(df)
 df$TMAX = as.numeric(df$TMAX)
-
 t_max = df$TMAX
-mean(t_max)
 
-#hist(t_max, breaks= (0,28,30,32,34,36,36,50), freq=T)
+#definindo os valores para mudança das classes de temperatura no histograma
+brk = c(28,30,32,34,36,41.5)
 
-hist (t_max, 
-      main = "Temperaturas 2000-2022 - Piracicaba-SP", 
-      xlab = "Temperaturas", ylab = "Frequ�ncia", 
-      col = "grey",
-      border = "black",
-      freq =F,
-      breaks = c(0,10,15,28, 30, 32, 34,36,42), 
-      right = T, 
-      labels = F)
-     
+#Histograma
+hist (t_max,
+      freq=T,
+      main = "Frequência de dias quentes Piracicaba nas ultimas 2 décadas", 
+      xlab = "Temperaturas (°C)", ylab = "Frequência (dias)", 
+      col = "dark orange",
+      border = "yellow",
+      breaks = brk,
+      include.lowest = TRUE, 
+      right = FALSE) 
+
+
 
