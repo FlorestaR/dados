@@ -1,7 +1,8 @@
 # ---------------------------------------------------------------------
 # LCF5900_CLIMA.R
 # Author:  Luiz Carlos Estraviz Rodriguez
-# Updated: 04/Abr/2025
+# Updated: 09/Abr/2025 (backup)
+# https://posit.cloud/content/10144185 (private, Google access enabled)
 # ---------------------------------------------------------------------
 rm(list=ls(all=TRUE))                                  # Memory cleanup
 gc()
