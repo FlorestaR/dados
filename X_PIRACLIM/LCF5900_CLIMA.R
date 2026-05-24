@@ -70,6 +70,8 @@ hist (t_max,
 new_df <- df %>%
   select(Ano, Mes, TMED, TMIN, TMAX, Chuva) %>%
   drop_na() %>%
+# Convert TMED from factor to numeric safely
+  mutate(TMED = as.numeric(as.character(TMED))) %>% 
   filter(TMED <50)
 str(new_df)
 
