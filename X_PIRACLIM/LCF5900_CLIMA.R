@@ -1,8 +1,7 @@
 # ---------------------------------------------------------------------
 # LCF5900_CLIMA.R
 # Author:  Luiz Carlos Estraviz Rodriguez
-# Updated: 09/Abr/2025 (backup)
-# https://posit.cloud/content/10144185 (private, Google access enabled)
+# Updated: 31/Mai/2026
 # ---------------------------------------------------------------------
 rm(list=ls(all=TRUE))                                  # Memory cleanup
 gc()
@@ -11,25 +10,13 @@ gc()
 setwd("/cloud/project/LCF5900")
 
 # Load packages
-if(!require(tidyverse))
-  install.packages("tidyverse")
-library(tidyverse)
-
-if(!require(rio))
-  install.packages("rio")
-library(rio); install_formats()
-
-if(!require(gganimate))
-  install.packages("gganimate")
-library(gganimate)
-
-if(!require(gifski))
-  install.packages("gifski")
-library(gifski)
-
-if(!require(av))
-  install.packages("av")
-library(av)
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(rio)
+  library(gganimate)
+  library(gifski)
+  library(av)
+})
 
 # Define github URL where climate data from Piracicaba is stored
 # OBS: copy the full github URL address and replace "tree" with "blob")
@@ -50,29 +37,33 @@ df <- df %>% mutate(across(1:8, factor)) %>% tibble()
 colnames(df)
 str(df)
 
-# Creation of a simple histogram for a subgroup of years
+# Extract values of interest into a vector
 t_max <- df %>%
-  filter(Ano %in% c(2022, 2023, 2024)) %>%
+  filter(Ano %in% c(2022, 2023, 2024, 2025)) %>%
   pull(TMAX)
-hist (t_max, 
-      main = "Temperaturas 2022-2024 - Piracicaba-SP", 
-      xlab = "Temperaturas", ylab = "Freq.", 
-      col = "grey",
-      border = "black",
-      freq =F,
-      breaks = c(0,5,10,15,20,25,30,35,40,45), 
-      right = T, 
-      labels = F)
 
+# Compute breaks and counts manually
+breaks      <- c(0, 5, 10, 15, 20, 25, 30, 35, 40, 45)
+counts      <- hist(t_max, breaks = breaks, plot = FALSE)$counts
+percentages <- counts / sum(counts) * 100            # relative frequencies in %
 
-# Creation of a new dataframe called new_df without NAs
-# and filtered by TMED<50
+# Plot using the pre-computed percentages
+bp <- barplot(percentages,
+              # Create the class names
+              names.arg = paste0(breaks[-length(breaks)], "–", breaks[-1]),
+              main  = "Temperaturas 2022-2025 - Piracicaba-SP",
+              xlab  = "Temperatura (°C)",
+              ylab  = "Frequência relativa (%)",
+              col   = "grey",
+              border = "black",
+              las   = 1)                      # rotate x labels for readability
+
+# Create a new dataframe, turn TMAX, TMIN and TMED into factors,
+# delete NAs and filter  by values < 50
 new_df <- df %>%
   select(Ano, Mes, TMED, TMIN, TMAX, Chuva) %>%
   drop_na() %>%
-# Convert TMED from factor to numeric safely
-  mutate(TMED = as.numeric(as.character(TMED))) %>% 
-  filter(TMED <50)
+  filter(if_all(c(TMED, TMIN, TMAX), ~ . < 50))
 str(new_df)
 
 # Summarize a few statistics for new_df
@@ -81,24 +72,40 @@ new_df %>% summarise(m_TMED     = mean(TMED),
                      m_TMAX     = mean(TMAX),
                      m_Chuva    = mean(Chuva))
 
-# Calculate the average TMED per month per year
+# Calculate mean TMED per month per year
 medMes <- df %>%
   group_by(Ano, Mes) %>%
-  summarise(tmedMes = mean(TMED, na.rm = TRUE), .groups = "drop")
+  summarise(tmedMes = mean(TMED, na.rm = TRUE), .groups = "drop") %>%
+  mutate(Mes = factor(Mes, levels = 1:12,
+                      labels = c("Jan","Fev","Mar","Abr","Mai","Jun",
+                                 "Jul","Ago","Set","Out","Nov","Dez")))
 
-# Create one graph per year with monthly average TMAX 
-p <- ggplot(medMes, aes(x = Mes, y = tmedMes)) +
-  geom_point() +
-  labs(title = "Ano: {frame_time}") +
-  transition_time(as.numeric(as.character(Ano))) +
-  ease_aes("linear") +
+# Builds a sequence of plots per year
+# -------------------------------------/
+p <- ggplot(medMes, aes(x = Mes, y = tmedMes, group = 1)) +
+  geom_line(color = "steelblue") +
+  geom_point(size = 3, color = "steelblue") +
+  labs(
+    title = "Temperatura Média Mensal — Ano: {closest_state}",
+    x     = "Mês",
+    y     = "Temperatura Média (°C)"
+  ) +
+  # Longer pause per year
+  transition_states(Ano, transition_length = 1, state_length = 3) +
+  ease_aes("sine-in-out") +
   enter_fade() +
   exit_fade()
 
-# Create an animated GIF that shows a sequence of annual averages
-animate(p, width = 750, height = 450)
-anim_save("grafGIF.gif", animation = p)
+# Render and save an animated GIF plot
+# -------------------------------------/
+gif <- animate(p, width = 750, height = 450, fps = 3, 
+               renderer = gifski_renderer())
+anim_save("grafGIF.gif", animation = gif)
+browseURL("grafGIF.gif")                                   # Plays GIF in Viewer
 
-# Create an MP4 movie that shows the sequence of annual averages
-animate(p, renderer = ffmpeg_renderer(), width = 800, height = 450)
-anim_save("animGraf.mp4")
+# Render and save an animated MP4 movie
+# -------------------------------------/
+mp4 <- animate(p, width = 800, height = 450, fps = 3,
+        renderer = ffmpeg_renderer(), )
+anim_save("grafMP4.mp4", animation = mp4)
+browseURL("grafMP4.mp4")                                   # Plays MP4 in Viewer
