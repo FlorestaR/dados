@@ -51,7 +51,7 @@ percentages <- counts / sum(counts) * 100            # relative frequencies in %
 bp <- barplot(percentages,
               # Create the class names
               names.arg = paste0(breaks[-length(breaks)], "–", breaks[-1]),
-              main  = "Temperaturas Médias Mensais Máximas 2022-2025 - Piracicaba-SP",
+              main  = "Temperaturas Mensais Máximas 2022-2025 - Piracicaba-SP",
               xlab  = "Temperatura (°C)",
               ylab  = "Frequência relativa (%)",
               col   = "grey",
@@ -106,6 +106,6 @@ browseURL("grafGIF.gif")                                   # Plays GIF in Viewer
 # Render and save an animated MP4 movie
 # -------------------------------------/
 mp4 <- animate(p, width = 800, height = 450, fps = 3,
-        renderer = ffmpeg_renderer(), )
+               renderer = ffmpeg_renderer(), )
 anim_save("grafMP4.mp4", animation = mp4)
 browseURL("grafMP4.mp4")                                   # Plays MP4 in Viewer
