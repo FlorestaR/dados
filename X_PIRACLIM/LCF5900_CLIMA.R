@@ -51,7 +51,7 @@ percentages <- counts / sum(counts) * 100            # relative frequencies in %
 bp <- barplot(percentages,
               # Create the class names
               names.arg = paste0(breaks[-length(breaks)], "–", breaks[-1]),
-              main  = "Temperaturas 2022-2025 - Piracicaba-SP",
+              main  = "Temperaturas Médias Mensais Máximas 2022-2025 - Piracicaba-SP",
               xlab  = "Temperatura (°C)",
               ylab  = "Frequência relativa (%)",
               col   = "grey",
