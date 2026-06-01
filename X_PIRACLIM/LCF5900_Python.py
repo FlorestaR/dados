@@ -16,6 +16,7 @@ import matplotlib.ticker as mticker
 import imageio.v2 as imageio
 
 # ── 1. Working directory 
+os.makedirs("/content/PiraClima", exist_ok=True)
 os.chdir("/content/PiraClima")                          # equivalent to setwd()
 
 # ── 2. Build the GitHub URL
